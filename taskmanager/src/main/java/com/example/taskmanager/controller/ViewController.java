@@ -42,7 +42,7 @@ public class ViewController {
 	}
 
 	@GetMapping("/register-user")
-	public String registerUser(Model model) {
+	public String showRegisterUserPage(Model model) {
 		model.addAttribute("webUser", new WebUserDTO());
 		return "register-user";
 	}
@@ -64,9 +64,22 @@ public class ViewController {
 	}
 
 	@GetMapping("/create-task")
-	public String createTask(Model model) {
+	public String showCreateTaskPage(Model model) {
 		model.addAttribute("webTaskDTO", new WebTaskDTO());
 		return "create-task";
+	}
+
+	@GetMapping("/delete-tasks")
+	private String showDeleteTasksPage(Model model, Authentication authentication) {
+
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+		String username = userDetails.getUsername();
+		User user = userService.getUserByUsername(username);
+		int userId = user.getId();
+		List<TaskDTO> tasks = taskService.getTasksByUserId(userId);
+		model.addAttribute("tasks", tasks);
+		return "delete-tasks";
 	}
 
 

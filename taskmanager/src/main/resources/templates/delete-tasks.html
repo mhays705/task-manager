@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Tasks</title>
+</head>
+<body>
+
+    <h1>Task List</h1>
+
+    <hr>
+    <br><br>
+
+    <form action="#" th:action="@{/api/tasks/delete-tasks}" method="post">
+
+        <input type="hidden" name="_method" value="DELETE">
+        <table>
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Task Name</th>
+                    <th>Start Date</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each ="task : ${tasks}">
+                    <td><input type="checkbox" th:name="selectedItems" th:value="${task.id}"></td>
+                    <td th:text="${task.taskName}"></td>
+                    <td th:text="${task.startDate}"></td>
+                    <td th:text="${task.dueDate}"></td>
+                    <td th:text="${task.taskStatus ? 'Completed' : 'Pending'}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button type="submit">Delete</button>
+
+        <br>
+        <a th:href="@{/dashboard}">Return to dashboard</a>
+
+    </form>
+    
+</body>
+</html>
