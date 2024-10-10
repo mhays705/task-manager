@@ -9,7 +9,7 @@
         function validateForm() {
             const checkboxes = document.querySelectorAll('input[name="selectedItems"]:checked');
             if (checkboxes.length === 0) {
-                alert("Please select at least one task to delete.");
+                alert("Please select at least one task to update.");
                 return false; // Prevent form submission
             }
             return true; // Allow form submission
@@ -23,15 +23,15 @@
     <hr>
     <br><br>
 
-    <form action="#" th:action="@{/api/task/delete-tasks}" method="post" onsubmit="return validateForm()">
+    <form action="#" th:action="@{/api/task/update-status}" method="post" onsubmit="return validateForm()">
 
-        <input type="hidden" name="_method" value="DELETE">
+        <input type="hidden" name="_method" value="PATCH">
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col">Select</th>
                     <th scope="col">Task Name</th>
-                    <th scope="col">Start Date</th>
+                    <th scope="col"></th>Start Date</th>
                     <th scope="col">Due Date</th>
                     <th scope="col">Status</th>
                 </tr>
@@ -47,7 +47,7 @@
             </tbody>
         </table>
 
-        <button type="submit">Delete</button>
+        <button type="submit">Update</button>
 
         <br>
         <a th:href="@{/dashboard}">Return to dashboard</a>

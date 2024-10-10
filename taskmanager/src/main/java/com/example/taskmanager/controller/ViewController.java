@@ -72,6 +72,9 @@ public class ViewController {
 	@GetMapping("/delete-tasks")
 	private String showDeleteTasksPage(Model model, Authentication authentication) {
 
+		if (authentication == null || !authentication.isAuthenticated()) {
+			return "redirect:/login";
+		}
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
 		String username = userDetails.getUsername();
@@ -80,6 +83,25 @@ public class ViewController {
 		List<TaskDTO> tasks = taskService.getTasksByUserId(userId);
 		model.addAttribute("tasks", tasks);
 		return "delete-tasks";
+	}
+
+	@GetMapping("/update-task-status")
+	public String showCompleteTasksPage(Model model, Authentication authentication) {
+
+		if (authentication == null || !authentication.isAuthenticated()) {
+			return "redirect:/login";
+		}
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		String username = userDetails.getUsername();
+		User user = userService.getUserByUsername(username);
+		List<TaskDTO> tasks = taskService.getTasksByUserId(user.getId());
+		model.addAttribute("tasks", tasks);
+
+		for(TaskDTO task : tasks) {
+			System.out.println(task.toString());
+		}
+
+		return "update-task-status";
 	}
 
 

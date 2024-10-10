@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 
@@ -12,21 +13,23 @@
     <hr>
     <br><br>
 
-    <table>
+    <div></div>
+    <table class="table">
         <thead>
             <tr>
-                <th>Task name</th>
-                <th>Start Date</th>
-                <th>Due Date</th>
-                <th>Status</th>
+                <th scope="col">Task name</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">Due Date</th>
+                <th scope="col">Status</th>
             </tr>
         </thead>
         <tbody>
-            <tr th:each="task : ${tasks}">
+            <tr  th:each="task : ${tasks}" th:if="${task.taskStatus == false}">
                 <td th:text="${task.taskName}"></td>
                 <td th:text="${task.startDate}"></td>
                 <td th:text="${task.dueDate}"></td>
                 <td th:text="${task.taskStatus ? 'Completed' : 'Pending'}"></td>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -36,9 +39,15 @@
     <P>
         Select an action
     </P>
-    <a th:href="@{/create-task}">Add new task</a>
-    <br>
-    <a th:href="@{/delete-tasks}">Delete task</a>
+    <form th:action="@{/create-task}" method="get">
+        <button type="sumbit">Create New Task</button>
+    </form>
+    <form th:action="@{/update-task-status}" method="get">
+        <button type="sumbit">Update Task Status</button>
+    </form>
+    <form th:action="@{/delete-tasks}" method="get">
+        <button type="sumbit">Delete Tasks</button>
+    </form>
     <br><br>
     <form th:action="@{/logout}" method="post">
         <button type="sumbit">Logout</button>

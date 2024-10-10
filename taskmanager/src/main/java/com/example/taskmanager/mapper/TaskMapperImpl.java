@@ -20,6 +20,7 @@ public class TaskMapperImpl implements TaskMapper {
 				.taskName(task.getTaskName())
 				.startDate(task.getStartDate())
 				.dueDate(task.getDueDate())
+				.taskStatus(task.isTaskStatus())
 				.build();
 
 		return taskDTO;
@@ -50,6 +51,7 @@ public class TaskMapperImpl implements TaskMapper {
 				.startDate(taskDTO.getStartDate())
 				.dueDate(taskDTO.getDueDate())
 				.user(user)
+				.taskStatus(taskDTO.isTaskStatus())
 				.build();
 
 

@@ -59,7 +59,7 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("/dashboard")).build();
     }
 
-	@DeleteMapping("/tasks/delete-tasks")
+	@DeleteMapping("/task/delete-tasks")
 	public ResponseEntity<String> deleteTask(@RequestParam List<Integer> selectedItems) {
 
 		if(selectedItems == null || selectedItems.isEmpty()) {
@@ -71,6 +71,22 @@ public class TaskController {
 		}
 
 		return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "/dashboard").build();
+	}
+
+	@PatchMapping("/task/update-status")
+	public ResponseEntity<String> updateTaskStatus(@RequestParam List<Integer> selectedItems) {
+
+		if (selectedItems == null || selectedItems.isEmpty()) {
+			return ResponseEntity.badRequest().body("No tasks selected to mark complete.");
+		}
+
+		for (Integer id : selectedItems) {
+			taskService.toggleTaskStatus(id);
+		}
+
+		return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION,"/dashboard").build();
+
+
 	}
 
 
