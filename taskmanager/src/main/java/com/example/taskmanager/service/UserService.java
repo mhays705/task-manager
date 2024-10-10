@@ -22,11 +22,7 @@ public interface UserService {
 
 	boolean deleteUser(int id);
 
-	void login(User user, HttpSession session);
-
-	public User getCurrentUser(HttpSession session);
-
-	public Optional<UserDTO> getUserDTOByUsername(String username);
+	Optional<UserDTO> getUserDTOByUsername(String username);
 
 
 }

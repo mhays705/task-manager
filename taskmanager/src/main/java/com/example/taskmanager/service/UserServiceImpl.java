@@ -122,11 +122,4 @@ public class UserServiceImpl implements UserService {
 		return true;
 	}
 
-	public void login(User user, HttpSession session) {
-		session.setAttribute("currentUser", user);
-	}
-
-	public User getCurrentUser(HttpSession session) {
-		return (User) session.getAttribute("currentUser"); // Ensure you set this attribute when the user logs in
-	}
 }
