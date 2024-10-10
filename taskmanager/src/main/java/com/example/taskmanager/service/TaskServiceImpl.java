@@ -48,7 +48,12 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	@Transactional
-	public TaskDTO createTask(WebTaskDTO webTaskDTO, User user) {
+	public TaskDTO createTask(WebTaskDTO webTaskDTO, String username) {
+		User user = userService.getUserByUsername(username);
+		if (user == null) {
+			throw new RuntimeException("User not found with username" + username);
+		}
+
 		Task task = Task.builder()
 				.taskName(webTaskDTO.getTaskName())
 				.startDate(webTaskDTO.getStartDate())

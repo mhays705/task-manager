@@ -57,9 +57,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<UserDTO> getUserByUsername(String username) {
-		return userRepository.findByUsername(username)
-				.map(userMapper::toDTO);
+	public Optional<UserDTO> getUserDTOByUsername(String username) {
+		User user =userRepository.findByUsername(username);
+				if (user != null) {
+					return Optional.of(userMapper.toDTO(user));
+				}
+				else {
+					return Optional.empty();
+				}
+	}
+
+	@Override
+	public User getUserByUsername(String username) {
+		return userRepository.findByUsername(username);
 	}
 
 	@Override
@@ -72,9 +82,9 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public Optional<UserDTO> updateUser(int id, WebUserDTO webUserDTO) {
 		return userRepository.findById(id).map(existingUser -> {
-				updateFields(existingUser, webUserDTO);
-				userRepository.save(existingUser);
-				return userMapper.toDTO(existingUser);
+			updateFields(existingUser, webUserDTO);
+			userRepository.save(existingUser);
+			return userMapper.toDTO(existingUser);
 		});
 
 
@@ -83,19 +93,17 @@ public class UserServiceImpl implements UserService {
 	/** Helper method for updateUser */
 	@Transactional
 	public void updateFields(User existingUser, WebUserDTO webUserDTO) {
-		if (existingUser.getUsername() != null && !existingUser.getUsername().equals(existingUser.getUsername())) {
-			existingUser.setUsername(existingUser.getUsername());
+		if (webUserDTO.getUsername() != null && !webUserDTO.getUsername().equals(existingUser.getUsername())) {
+			existingUser.setUsername(webUserDTO.getUsername());
 		}
-
-		if (existingUser.getFirstName() != null && !existingUser.getFirstName().equals(existingUser.getFirstName())) {
-			existingUser.setFirstName(existingUser.getFirstName());
+		if (webUserDTO.getFirstName() != null && !webUserDTO.getFirstName().equals(existingUser.getFirstName())) {
+			existingUser.setFirstName(webUserDTO.getFirstName());
 		}
-		if (existingUser.getLastName() != null && !existingUser.getLastName().equals(existingUser.getLastName())) {
-			existingUser.setLastName(existingUser.getLastName());
+		if (webUserDTO.getLastName() != null && !webUserDTO.getLastName().equals(existingUser.getLastName())) {
+			existingUser.setLastName(webUserDTO.getLastName());
 		}
-
-		if (existingUser.getEmail() != null && !existingUser.getEmail().equals(existingUser.getEmail())) {
-			existingUser.setEmail(existingUser.getEmail());
+		if (webUserDTO.getEmail() != null && !webUserDTO.getEmail().equals(existingUser.getEmail())) {
+			existingUser.setEmail(webUserDTO.getEmail());
 		}
 	}
 

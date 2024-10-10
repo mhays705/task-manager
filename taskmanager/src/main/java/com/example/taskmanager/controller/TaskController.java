@@ -1,18 +1,20 @@
 package com.example.taskmanager.controller;
 
-import com.example.taskmanager.dto.TaskDTO;
 import com.example.taskmanager.dto.WebTaskDTO;
-import com.example.taskmanager.entity.User;
+import com.example.taskmanager.mapper.UserMapper;
 import com.example.taskmanager.service.TaskService;
 import com.example.taskmanager.service.UserService;
-import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api")
@@ -20,11 +22,14 @@ public class TaskController {
 
     private final TaskService taskService;
     private final UserService userService;
+	private final UserMapper userMapper;
 
     @Autowired
-    public TaskController(UserService userService, TaskService taskService) {
+    public TaskController(UserService userService, TaskService taskService,
+						  UserMapper userMapper) {
         this.taskService = taskService;
         this.userService = userService;
+		this.userMapper = userMapper;
     }
 
 
@@ -32,16 +37,23 @@ public class TaskController {
 
 
     @PostMapping("/task/create-task")
-    public ResponseEntity<TaskDTO> createTask(@RequestBody WebTaskDTO webTaskDTO, HttpSession session) {
-        User user = userService.getCurrentUser(session);
+    public ResponseEntity<String> createTask(@Valid @ModelAttribute WebTaskDTO webTaskDTO,
+                                             BindingResult bindingResult) {
 
-        if (user == null) {
+        if (bindingResult.hasErrors()){
             return ResponseEntity.badRequest().build();
         }
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication == null || !authentication.isAuthenticated()) {
+			return ResponseEntity.badRequest().build();
+		}
 
-        TaskDTO taskDTO = taskService.createTask(webTaskDTO, user);
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(taskDTO);
+		String username = userDetails.getUsername();
+        taskService.createTask(webTaskDTO, username);
+
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("/dashboard")).build();
     }
 
 

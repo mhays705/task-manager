@@ -21,12 +21,10 @@ public class WebTaskDTO {
 
 	@NotBlank(message = "is required")
 	@Size(max = 255, message = "Name must be 255 characters or less")
-
 	private String taskName;
 
 	@NotNull(message = "Start date is required")
 	@PastOrPresent(message = "Start date must be current day or earlier")
-
 	private LocalDate startDate;
 
 	@Future(message = "Due date must be in future")

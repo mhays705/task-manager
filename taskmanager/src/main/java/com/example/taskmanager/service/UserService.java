@@ -12,7 +12,7 @@ public interface UserService {
 
 	UserDTO registerUser(WebUserDTO webUserDTO);
 
-	Optional<UserDTO> getUserByUsername(String username);
+	User getUserByUsername(String username);
 
 	Optional<UserDTO> getUserById(int id);
 
@@ -25,4 +25,8 @@ public interface UserService {
 	void login(User user, HttpSession session);
 
 	public User getCurrentUser(HttpSession session);
+
+	public Optional<UserDTO> getUserDTOByUsername(String username);
+
+
 }

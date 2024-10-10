@@ -1,5 +1,6 @@
 package com.example.taskmanager.controller;
 
+import com.example.taskmanager.dto.WebTaskDTO;
 import com.example.taskmanager.dto.WebUserDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +33,12 @@ public class ViewController {
 	@GetMapping("/dashboard")
 	public String showUserDashboard() {
 		return "user-dashboard";
+	}
+
+	@GetMapping("/create-task")
+	public String createTask(Model model) {
+		model.addAttribute("webTaskDTO", new WebTaskDTO());
+		return "create-task";
 	}
 
 

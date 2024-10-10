@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Task</title>
+</head>
+<body>
+
+    <h3>Create New Task</h3>
+    <br>
+    <hr>
+    <br>
+
+    <form action="#" th:action="@{/api/task/create-task}" th:object="${webTaskDTO}" method="post">
+        <input type="text" th:field="*{taskName}" name="taskName" />
+        <input type="date" th:field="*{startDate}" name="startDate">
+        <input type="date" th:field="*{dueDate}" name="dueDate">
+        <button type="submit">Create Task</button>
+    </form>
+
+    <a th:href="@{/dashboard}">Return to dashboard</a>
+
+    
+    
+</body>
+</html>

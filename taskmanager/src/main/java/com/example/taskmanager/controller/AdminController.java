@@ -9,9 +9,11 @@ import com.example.taskmanager.mapper.UserMapper;
 import com.example.taskmanager.service.TaskService;
 import com.example.taskmanager.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -55,15 +57,16 @@ public class AdminController {
 
 
     @PostMapping("/admin/create-task/{id}")
-    public ResponseEntity<TaskDTO> createTask(@PathVariable int id, @RequestBody WebTaskDTO webTaskDTO) {
-        Optional<UserDTO> user = userService.getUserById(id);
-        if (user.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    public ResponseEntity<TaskDTO> createTask(@PathVariable int id, @Valid @ModelAttribute WebTaskDTO webTaskDTO, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-
-        UserDTO userDTO= user.get();
-
-        TaskDTO newTask = taskService.createTask(webTaskDTO, userMapper.toEntity(userDTO));
+        User user = userService.getUserById(id)
+                .map(userMapper::toEntity)
+                .orElseThrow(() -> new RuntimeException("User with id: "+ id + " not found"));
+        String username = user.getUsername();
+        TaskDTO newTask = taskService.createTask(webTaskDTO, username);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(newTask);
 

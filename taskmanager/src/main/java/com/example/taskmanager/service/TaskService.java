@@ -15,7 +15,7 @@ public interface TaskService {
 
     List<TaskDTO> getAllTasks();
 
-    TaskDTO createTask(WebTaskDTO webTaskDTO, User user);
+    TaskDTO createTask(WebTaskDTO webTaskDTO, String username);
 
     void deleteTask(int id);
 
