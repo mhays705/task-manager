@@ -6,15 +6,18 @@ import com.example.taskmanager.service.TaskService;
 import com.example.taskmanager.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -55,6 +58,20 @@ public class TaskController {
 
         return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("/dashboard")).build();
     }
+
+	@DeleteMapping("/tasks/delete-tasks")
+	public ResponseEntity<String> deleteTask(@RequestParam List<Integer> selectedItems) {
+
+		if(selectedItems == null || selectedItems.isEmpty()) {
+			return ResponseEntity.badRequest().body("No tasks selected for deletion");
+		}
+
+		for (Integer id : selectedItems) {
+			taskService.deleteTask(id);
+		}
+
+		return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "/dashboard").build();
+	}
 
 
 

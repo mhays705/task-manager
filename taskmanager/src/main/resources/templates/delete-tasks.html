@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delete Tasks</title>
+    <script>
+        function validateForm() {
+            const checkboxes = document.querySelectorAll('input[name="selectedItems"]:checked');
+            if (checkboxes.length === 0) {
+                alert("Please select at least one task to delete.");
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission
+        }
+    </script>
 </head>
 <body>
 
@@ -12,7 +22,7 @@
     <hr>
     <br><br>
 
-    <form action="#" th:action="@{/api/tasks/delete-tasks}" method="post">
+    <form action="#" th:action="@{/api/tasks/delete-tasks}" method="post" onsubmit="return validateForm()">
 
         <input type="hidden" name="_method" value="DELETE">
         <table>
