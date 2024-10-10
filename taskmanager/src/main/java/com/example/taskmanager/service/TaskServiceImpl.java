@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -104,5 +105,12 @@ public class TaskServiceImpl implements TaskService {
 		taskRepository.save(task);
 
 		return task.isTaskStatus();
+	}
+
+	@Override
+	public List<TaskDTO> getTasksByUserId(int id) {
+		return taskRepository.findTasksByUserId(id)
+				.stream().map(taskMapper::toDTO)
+				.collect(Collectors.toList());
 	}
 }

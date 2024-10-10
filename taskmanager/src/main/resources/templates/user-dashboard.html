@@ -7,9 +7,31 @@
 </head>
 <body>
 
-    <h3>Welcome to the dashboard!</h3>
+    <h1>Your Tasks</h1>
 
     <hr>
+    <br><br>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Task name</th>
+                <th>Start Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="task : ${tasks}">
+                <td th:text="${task.taskName}"></td>
+                <td th:text="${task.startDate}"></td>
+                <td th:text="${task.dueDate}"></td>
+                <td th:text="${task.taskStatus ? 'Completed' : 'Pending'}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    
     <br>
     <P>
         Select an action

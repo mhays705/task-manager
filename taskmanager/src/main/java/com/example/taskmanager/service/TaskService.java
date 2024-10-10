@@ -25,5 +25,7 @@ public interface TaskService {
 
     boolean toggleTaskStatus(int id);
 
+    List<TaskDTO> getTasksByUserId(int id);
+
 
 }
