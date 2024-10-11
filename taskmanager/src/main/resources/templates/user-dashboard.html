@@ -1,57 +1,64 @@
-<!DOCTYPE html>
+<!--Storing basic page template layout for webpages-->
+<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>User Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/starter-template.css" rel="stylesheet">
 </head>
 <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" th:href="@{/}">UTracker</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" th:href="@{/dashboard}">Dashboard</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <form action="#" th:action="@{/logout}" method="post" style="display:inline;">
+                    <button type="submit" class="nav-link" style="background: transparent; border: none; color: #ffffff; padding: 0;">
+                        Logout
+                    </button>
+                </form>
+              </li>
+            </ul>
+        </div>
+    </nav>
 
-    <h1>Your Tasks</h1>
+    <main role="main" class="container">
+        <div class="starter-template">
+            <h1>Pending Tasks</h1>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Task name</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">Due Date</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr  th:each="task : ${tasks}" th:if="${task.taskStatus == false}">
+                        <td th:text="${task.taskName}"></td>
+                        <td th:text="${task.startDate}"></td>
+                        <td th:text="${task.dueDate}"></td>
+                        <td th:text="${task.taskStatus ? 'Completed' : 'Pending'}"></td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
 
-    <hr>
-    <br><br>
-
-    
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Task name</th>
-                <th scope="col">Start Date</th>
-                <th scope="col">Due Date</th>
-                <th scope="col">Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr  th:each="task : ${tasks}" th:if="${task.taskStatus == false}">
-                <td th:text="${task.taskName}"></td>
-                <td th:text="${task.startDate}"></td>
-                <td th:text="${task.dueDate}"></td>
-                <td th:text="${task.taskStatus ? 'Completed' : 'Pending'}"></td>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    
-    <br>
-    <P>
-        Select an action
-    </P>
-    <form th:action="@{/create-task}" method="get">
-        <button type="sumbit">Create New Task</button>
-    </form>
-    <form th:action="@{/update-task-status}" method="get">
-        <button type="sumbit">Update Task Status</button>
-    </form>
-    <form th:action="@{/delete-tasks}" method="get">
-        <button type="sumbit">Delete Tasks</button>
-    </form>
-    <br><br>
-    <form th:action="@{/logout}" method="post">
-        <button type="sumbit">Logout</button>
-    </form>
-    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -63,6 +63,7 @@ public class SecurityConfig {
 
 		http.authorizeHttpRequests( configurer ->
 				configurer
+						.requestMatchers("/css/**").permitAll()
 						.requestMatchers("/", "/login", "/logout", "/access-denied", "/register-user", "/api/register-user" ).permitAll()
 						.requestMatchers("/dashboard","/create-task", "/delete-tasks", "/update-task-status").authenticated()
 						.requestMatchers("/api/**").hasAnyRole("USER", "ADMIN")
@@ -82,6 +83,7 @@ public class SecurityConfig {
 								.invalidateHttpSession(true)
 								.deleteCookies("JSESSIONID")
 								.permitAll())
+				.anonymous(anonymous -> anonymous.disable())
 				.exceptionHandling(configurer ->
 						configurer
 								.accessDeniedPage("/access-denied"));
