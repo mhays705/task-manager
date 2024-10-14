@@ -87,7 +87,7 @@ public class AdminController {
             taskService.deleteTask(id);
         }
 
-        return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "/admin-dashboard").build();
+        return ResponseEntity.ok("Delete of tasks has been completed.");
 
 
     }
