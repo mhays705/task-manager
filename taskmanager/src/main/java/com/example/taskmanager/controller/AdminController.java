@@ -11,11 +11,13 @@ import com.example.taskmanager.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -71,6 +73,21 @@ public class AdminController {
         TaskDTO newTask = taskService.createTask(webTaskDTO, username);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(newTask);
+    }
+
+
+    @DeleteMapping("/admin/delete-user-tasks")
+    public ResponseEntity<String> deleteUserTasks(@RequestParam List<Integer> selectedItems) {
+
+        if (selectedItems == null || selectedItems.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No tasks selected to delete");
+        }
+
+        for (Integer id : selectedItems) {
+            taskService.deleteTask(id);
+        }
+
+        return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "/admin-dashboard").build();
 
 
     }

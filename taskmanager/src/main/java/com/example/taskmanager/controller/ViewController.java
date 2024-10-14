@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -132,6 +133,20 @@ public class ViewController {
 		model.addAttribute("users", users);
 
 		return "admin-dashboard";
+
+	}
+
+
+	@GetMapping("/admin-user-tasks/{username}")
+	public String deleteUserTasks(@PathVariable String username, Model model) {
+
+		User user = userService.getUserByUsername(username);
+		List<TaskDTO> tasks = taskService.getTasksByUserId(user.getId());
+		model.addAttribute("tasks", tasks);
+
+		return "admin-user-tasks";
+
+
 
 	}
 
