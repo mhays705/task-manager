@@ -17,10 +17,13 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
 	private final CustomUserDetailsService customUserDetailsService;
+	private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
 	@Autowired
-	public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
+	public SecurityConfig(CustomUserDetailsService customUserDetailsService,
+						  CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
 		this.customUserDetailsService = customUserDetailsService;
+		this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
 	}
 
 
@@ -67,14 +70,14 @@ public class SecurityConfig {
 						.requestMatchers("/","/register-new-user", "/login", "/logout", "/access-denied", "/api/register-user" ).permitAll()
 						.requestMatchers("/dashboard","/create-task", "/delete-tasks", "/update-task-status").authenticated()
 						.requestMatchers("/api/**").hasAnyRole("USER", "ADMIN")
-						.requestMatchers("/api/admin/**").hasRole("ADMIN")
+						.requestMatchers("/admin-dashboard","/api/admin/**").hasRole("ADMIN")
 						.anyRequest().authenticated()
 		)
 				.formLogin(form ->
 						form
 								.loginPage("/login")
 								.loginProcessingUrl("/authenticateUser")
-								.defaultSuccessUrl("/dashboard", true)
+								.successHandler(customAuthenticationSuccessHandler)
 								.permitAll())
 				.logout(logout ->
 						logout

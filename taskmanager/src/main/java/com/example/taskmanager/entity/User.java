@@ -56,7 +56,7 @@ public class User {
 	private boolean enabled = true;
 
 	@OneToMany( mappedBy = "user", cascade = {CascadeType.DETACH, CascadeType.MERGE,
-			CascadeType.REFRESH, CascadeType.PERSIST} )
+			CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE} )
 	private List<Task> tasks;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE,

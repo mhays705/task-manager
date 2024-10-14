@@ -1,6 +1,7 @@
 package com.example.taskmanager.controller;
 
 import com.example.taskmanager.dto.TaskDTO;
+import com.example.taskmanager.dto.UserDTO;
 import com.example.taskmanager.dto.WebTaskDTO;
 import com.example.taskmanager.dto.WebUserDTO;
 import com.example.taskmanager.entity.User;
@@ -54,6 +55,11 @@ public class ViewController {
 		}
 
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+		if (userDetails.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+			return "redirect:/admin-dashboard";
+		}
+
 		int id = userService.getUserByUsername(userDetails.getUsername()).getId();
 
 		List<TaskDTO> tasks = taskService.getTasksByUserId(id);
@@ -112,6 +118,20 @@ public class ViewController {
 
 		return "user-registration-form";
 
+	}
+
+	@GetMapping("/admin-dashboard")
+	public String showAdminDashboard(Model model, Authentication authentication) {
+
+		if (authentication == null || !authentication.isAuthenticated()) {
+			return "redirect:/login";
+		}
+
+		List<UserDTO> users = userService.getAllUsers();
+
+		model.addAttribute("users", users);
+
+		return "admin-dashboard";
 
 	}
 

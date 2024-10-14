@@ -17,14 +17,15 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav me-auto ">
-                    <li class="nav-item dropdown pe-0">
-                        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dashboard
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" id="adminNavbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Admin
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" th:href="@{/create-task}">Create New Task</a></li>
-                            <li><a class="dropdown-item" th:href="@{/delete-task}">Delete Task</a></li>
-                            <li><a class="dropdown-item" th:href="@{/update-user}">Update Account Info</a></li>
+                            <li><a class="dropdown-item" href="#">Create New User</a></li>
+                            <li><a class="dropdown-item" href="#">Delete User</a></li>
+                            <li><a class="dropdown-item" href="#">Update User Info</a></li>
+                            <li><a class="dropdown-item" href="#">Delete User Tasks</a></li>
                         </ul>
                     </li>
                     </ul>
@@ -43,22 +44,31 @@
 
     <main role="main" class="container">
         <div class="starter-template">
-            <h1>Pending Tasks</h1>
+            <h1>Users</h1>
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">Task name</th>
-                        <th scope="col">Start Date</th>
-                        <th scope="col">Due Date</th>
-                        <th scope="col">Status</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Email</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr  th:each="task : ${tasks}" th:if="${task.taskStatus == false}">
-                        <td th:text="${task.taskName}"></td>
-                        <td th:text="${task.startDate}"></td>
-                        <td th:text="${task.dueDate}"></td>
-                        <td th:text="${task.taskStatus ? 'Completed' : 'Pending'}"></td>
+                    <tr  th:each="user : ${users}">
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.firstName}"></td>
+                        <td th:text="${user.lastName}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td>
+                        <a class="btn btn-primary btn-sm" th:href="@{/user-tasks}">Tasks</a>
+                        <form th:action="@{/api/admin/delete-user/{username}(username=${user.username})}" method="post" style="display:inline;">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
                     </tr>
                 </tbody>
             </table>
