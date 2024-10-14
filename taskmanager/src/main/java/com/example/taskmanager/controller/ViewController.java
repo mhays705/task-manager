@@ -105,4 +105,15 @@ public class ViewController {
 	}
 
 
+	@GetMapping("/register-new-user")
+	public	String showUserRegistrationForm(Model model) {
+
+		model.addAttribute("webUserDTO", new WebUserDTO());
+
+		return "user-registration-form";
+
+
+	}
+
+
 }

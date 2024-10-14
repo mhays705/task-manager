@@ -64,7 +64,7 @@ public class SecurityConfig {
 		http.authorizeHttpRequests( configurer ->
 				configurer
 						.requestMatchers("/css/**").permitAll()
-						.requestMatchers("/", "/login", "/logout", "/access-denied", "/register-user", "/api/register-user" ).permitAll()
+						.requestMatchers("/","/register-new-user", "/login", "/logout", "/access-denied", "/api/register-user" ).permitAll()
 						.requestMatchers("/dashboard","/create-task", "/delete-tasks", "/update-task-status").authenticated()
 						.requestMatchers("/api/**").hasAnyRole("USER", "ADMIN")
 						.requestMatchers("/api/admin/**").hasRole("ADMIN")
