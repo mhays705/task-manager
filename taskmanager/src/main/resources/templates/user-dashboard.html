@@ -42,7 +42,10 @@
     </nav>
 
     <main role="main" class="container">
-        <div class="starter-template">
+        <div th:if="${tasks.isEmpty()}" class="starter-template" > 
+            <h3>No Tasks To Display! <br> Create New Task!</h3>
+        </div>
+        <div th:if="${!tasks.isEmpty()}" class="starter-template">
             <h1>Pending Tasks</h1>
             <table class="table table-bordered table-striped">
                 <thead>
@@ -62,6 +65,10 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="d-grid">
+                <button type="button" class="btn btn-success btn-large btn-block" th:href="@{/update-task-status}">Mark Tasks Complete</button>
+            </div>
+        </table>
         </div>
     </main>
 

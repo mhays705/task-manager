@@ -12,18 +12,22 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/}">UTracker</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li th:if="${#authentication == null || !#authentication.authenticated}" class="nav-item"  >
-                    <a class="nav-link" th:href="@{/login}">Login</a>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav me-auto ">
+                <li class="nav-item dropdown pe-0">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dashboard
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" th:href="@{/create-task}">Create New Task</a></li>
+                        <li><a class="dropdown-item" th:href="@{/delete-tasks}">Delete Task</a></li>
+                        <li><a class="dropdown-item" th:href="@{/update-user}">Update Account Info</a></li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" th:href="@{/dashboard}">Dashboard</a>
-                </li>
-            </ul>
+                </ul>
             <ul class="navbar-nav ms-auto">
               <li class="nav-item" th:if="${#authentication != null && #authentication.authenticated}">
                 <form action="#" th:action="@{/logout}" method="post" style="display:inline;">

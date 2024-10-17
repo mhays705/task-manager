@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Task Status</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script>
+        function validateForm() {
+            const checkboxes = document.querySelectorAll('input[name="selectedItems"]:checked');
+            if (checkboxes.length === 0) {
+                alert("Please select at least one task to update.");
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission
+        }
+    </script>
+</head>
+<body>
+
+    <h1>Task List</h1>
+
+    <hr>
+    <br><br>
+
+    <form action="#" th:action="@{/api/task/update-status}" method="post" onsubmit="return validateForm()">
+
+        <input type="hidden" name="_method" value="PATCH">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Select</th>
+                    <th scope="col">Task Name</th>
+                    <th scope="col"></th>Start Date</th>
+                    <th scope="col">Due Date</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each ="task : ${tasks}">
+                    <td><input type="checkbox" th:name="selectedItems" th:value="${task.id}"></td>
+                    <td th:text="${task.taskName}"></td>
+                    <td th:text="${task.startDate}"></td>
+                    <td th:text="${task.dueDate}"></td>
+                    <td th:text="${task.taskStatus ? 'Completed' : 'Pending'}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button type="submit">Update</button>
+
+        <br>
+        <a th:href="@{/dashboard}">Return to dashboard</a>
+
+    </form>
+    
+</body>
+</html>
