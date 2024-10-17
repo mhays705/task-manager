@@ -5,6 +5,7 @@ import com.example.taskmanager.dto.UserDTO;
 import com.example.taskmanager.dto.WebTaskDTO;
 import com.example.taskmanager.dto.WebUserDTO;
 import com.example.taskmanager.entity.User;
+import com.example.taskmanager.mapper.UserMapper;
 import com.example.taskmanager.service.TaskService;
 import com.example.taskmanager.service.UserService;
 import org.springframework.security.core.Authentication;
@@ -21,10 +22,13 @@ public class ViewController {
 
 	private final TaskService taskService;
 	private final UserService userService;
+	private final UserMapper userMapper;
 
-	public ViewController(TaskService taskService, UserService userService) {
+	public ViewController(TaskService taskService, UserService userService,
+						  UserMapper userMapper) {
 		this.taskService = taskService;
 		this.userService = userService;
+		this.userMapper = userMapper;
 	}
 
 	@GetMapping("/")
@@ -138,14 +142,29 @@ public class ViewController {
 
 
 	@GetMapping("/admin-user-tasks/{username}")
-	public String deleteUserTasks(@PathVariable String username, Model model) {
+	public String showDeleteUserTasks(@PathVariable String username, Model model) {
 
 		User user = userService.getUserByUsername(username);
 		List<TaskDTO> tasks = taskService.getTasksByUserId(user.getId());
 		model.addAttribute("tasks", tasks);
 
 		return "admin-user-tasks";
+	}
 
+	@GetMapping("/update-user-info")
+	public String showUpdateUserInfo(Model model, Authentication authentication) {
+
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		User user = userService.getUserByUsername(userDetails.getUsername());
+		WebUserDTO webUserDTO = WebUserDTO.builder()
+				.username(user.getUsername())
+				.firstName(user.getFirstName())
+				.lastName(user.getLastName())
+				.email(user.getEmail())
+				.build();
+		model.addAttribute("webUserDTO", webUserDTO);
+
+		return "update-user-info";
 
 
 	}

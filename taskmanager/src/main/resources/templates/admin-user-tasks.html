@@ -38,7 +38,7 @@
             </thead>
             <tbody>
                 <tr th:each ="task : ${tasks}">
-                    <td><input type="checkbox" th:name="selectedItems" th:value="${task.id}"></td>
+                    <td><input type="checkbox" name="selectedItems" th:value="${task.id}"></td>
                     <td th:text="${task.taskName}"></td>
                     <td th:text="${task.startDate}"></td>
                     <td th:text="${task.dueDate}"></td>

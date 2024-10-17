@@ -33,7 +33,7 @@
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" th:href="@{/create-task}">Create New Task</a></li>
                             <li><a class="dropdown-item active" th:href="@{/delete-tasks}">Delete Task</a></li>
-                            <li><a class="dropdown-item" th:href="@{/update-user}">Update Account Info</a></li>
+                            <li><a class="dropdown-item" th:href="@{/update-user-info}">Update Account Info</a></li>
                         </ul>
                     </li>
                     </ul>
@@ -54,6 +54,7 @@
 
         <div th:if="${tasks.isEmpty()}" class="starter-template" > 
             <h3>No Tasks To Display! <br> Create New Task!</h3>
+        </div>
         
 
     <div th:if="${!tasks.isEmpty()}">
@@ -76,7 +77,7 @@
             </thead>
             <tbody>
                 <tr th:each ="task : ${tasks}">
-                    <td><input type="checkbox" th:name="selectedItems" th:value="${task.id}"></td>
+                    <td><input type="checkbox" name="selectedItems" th:value="${task.id}"></td>
                     <td th:text="${task.taskName}"></td>
                     <td th:text="${task.startDate}"></td>
                     <td th:text="${task.dueDate}"></td>
@@ -91,7 +92,7 @@
         </form>
     </div>
     <div class="d-grid">
-        <button type="button" class="btn btn-primary btn-large btn-block" th:href="@{/dashboard}">Return to Dashboard</button>
+        <a class="btn btn-primary btn-large btn-block" th:href="@{/dashboard}">Return to Dashboard</a>
 
     </div>
     </main>

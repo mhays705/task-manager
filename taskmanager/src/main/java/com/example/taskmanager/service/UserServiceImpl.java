@@ -80,15 +80,23 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public Optional<UserDTO> updateUser(int id, WebUserDTO webUserDTO) {
-		return userRepository.findById(id).map(existingUser -> {
-			updateFields(existingUser, webUserDTO);
-			userRepository.save(existingUser);
-			return userMapper.toDTO(existingUser);
-		});
+	public Optional<UserDTO> updateUser(WebUserDTO webUserDTO) {
+	User user = userRepository.findByUsername(webUserDTO.getUsername());
+	if (user == null) {
+		throw new RuntimeException("User not found.");
+	}
+	updateFields(user, webUserDTO);
 
+	userRepository.save(user);
+
+	UserDTO userDTO = userMapper.toDTO(user);
+
+	return Optional.of(userDTO);
 
 	}
+
+
+
 
 	/** Helper method for updateUser */
 	@Transactional

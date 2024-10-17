@@ -16,7 +16,7 @@ public interface UserService {
 
 	Optional<UserDTO> getUserById(int id);
 
-	Optional<UserDTO> updateUser(int id, WebUserDTO user);
+	Optional<UserDTO> updateUser(WebUserDTO user);
 
 	List<UserDTO> getAllUsers();
 
