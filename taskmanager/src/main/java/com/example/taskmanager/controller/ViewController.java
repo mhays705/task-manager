@@ -22,13 +22,10 @@ public class ViewController {
 
 	private final TaskService taskService;
 	private final UserService userService;
-	private final UserMapper userMapper;
 
-	public ViewController(TaskService taskService, UserService userService,
-						  UserMapper userMapper) {
+	public ViewController(TaskService taskService, UserService userService) {
 		this.taskService = taskService;
 		this.userService = userService;
-		this.userMapper = userMapper;
 	}
 
 	@GetMapping("/")
@@ -108,7 +105,7 @@ public class ViewController {
 		List<TaskDTO> tasks = taskService.getTasksByUserId(user.getId());
 		model.addAttribute("tasks", tasks);
 
-		for(TaskDTO task : tasks) {
+		for (TaskDTO task : tasks) {
 			System.out.println(task.toString());
 		}
 
@@ -117,7 +114,7 @@ public class ViewController {
 
 
 	@GetMapping("/register-new-user")
-	public	String showUserRegistrationForm(Model model) {
+	public String showUserRegistrationForm(Model model) {
 
 		model.addAttribute("webUserDTO", new WebUserDTO());
 

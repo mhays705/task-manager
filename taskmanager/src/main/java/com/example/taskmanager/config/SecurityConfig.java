@@ -41,24 +41,6 @@ public class SecurityConfig {
 		return auth;
 	}
 
-	/** ClEAN UP LATER */
-//	@Bean
-//	public UserDetailsManager userDetailsManager(DataSource dataSource) {
-//
-//		JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
-//
-//		manager
-//				.setUsersByUsernameQuery("SELECT id, password, enabled FROM users where username=?");
-//		manager
-//				.setAuthoritiesByUsernameQuery("SELECT r.name FROM roles r " +
-//						"JOIN user_roles ur ON r.id = ur.role_id " +
-//						"JOIN users u ON u.id = ur.user_id " +
-//						"WHERE u.username=?");
-//
-//		return manager;
-//
-//
-//	}
 
 
 	@Bean
