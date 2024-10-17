@@ -78,7 +78,7 @@ create table `users` (
 
     -- Create a new admin user
     insert into `users` (username, first_name, last_name, email, password, enabled)
-    values ('admin', 'Matt', 'Hays', 'mhays@gmail.com', '{bcrypt}$2a$10$DGiTvZk5rdtEelwoc6SiaufYwrsciO.UawwkNY09Y220iAhsHqPqK', true);
+    values ('admin', 'Matt', 'Hays', 'mhays@gmail.com', '$2a$10$DGiTvZk5rdtEelwoc6SiaufYwrsciO.UawwkNY09Y220iAhsHqPqK', true);
 
     -- Get the ID of the newly created user
     set @user_id = LAST_INSERT_ID();
