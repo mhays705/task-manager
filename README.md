@@ -37,7 +37,7 @@ UTracker is a robust web-based task management application designed to help user
 - **DTOs**: Ensure secure data transfer and prevent exposing sensitive information.
 
 ## Layout Note
-The page layout and navigation bar were provided by a Bootstrap template, which helped to streamline the design process and create a responsive user interface.
+The page layout and navigation bar were initially provided by a Bootstrap template, which streamlined the design process and facilitated the creation of a responsive user interface. Several customizations have been made to enhance the layout, including modifications to the color scheme, spacing, and component styles, ensuring the design aligns with the specific requirements of this application.
 
 ## Getting Started
 To explore the features of UTracker, visit the registration page to create an account and log in to your dashboard. Here, you can manage your tasks and take advantage of the application's features.
