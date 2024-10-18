@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- Meta tags for character set and viewport settings -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delete User Tasks</title>
+    <!-- Bootstrap CSS for styling -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <!-- JavaScript function to validate form submission -->
     <script>
         function validateForm() {
             const checkboxes = document.querySelectorAll('input[name="selectedItems"]:checked');
@@ -19,12 +23,11 @@
 <body>
 
     <h1>User's Task List</h1>
-
     <hr>
     <br><br>
 
+    <!-- Form to delete user-selected tasks -->
     <form action="#" th:action="@{/api/admin/delete-user-tasks}" method="post" onsubmit="return validateForm()">
-
         <input type="hidden" name="_method" value="DELETE">
         <table class="table">
             <thead>
@@ -37,6 +40,7 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- Loop through tasks and display them in the table -->
                 <tr th:each ="task : ${tasks}">
                     <td><input type="checkbox" name="selectedItems" th:value="${task.id}"></td>
                     <td th:text="${task.taskName}"></td>
@@ -47,11 +51,12 @@
             </tbody>
         </table>
 
+        <!-- Button to submit the form to delete selected tasks -->
         <button type="submit">Delete</button>
 
         <br>
+        <!-- Link to return to the dashboard -->
         <a th:href="@{/dashboard}">Return to dashboard</a>
-
     </form>
     
 </body>

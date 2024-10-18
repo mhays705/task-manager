@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymelead.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- Meta tags for character set and viewport settings -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Access Denied</title>
 </head>
 <body>
 
+    <!-- Section for Access Denied Message -->
     <h3>Access Denied</h3>
     <hr>
     <br>
-    <p>Insuffiecient priveleges to access page</p>
+    <p>Insufficient privileges to access this page.</p>
 
+    <!-- Link to return to home page -->
     <a th:href="@{/}">Return to home page</a>
-    
+
 </body>
 </html>

@@ -4,82 +4,92 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>User Registration</title>
+
+    <!-- Bootstrap CSS for styling -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS for additional styles -->
     <link href="/css/starter-template.css" rel="stylesheet">
 </head>
 <body>
+    <!-- Navigation bar -->
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/}">UTracker</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li th:if="${#authentication == null || !#authentication.authenticated}" class="nav-item"  >
-                    <a class="nav-link" th:href="@{/login}">Login</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" th:href="@{/dashboard}">Dashboard</a>
-                </li>
-                <li th:if="${#authentication == null || !#authentication.authenticated}" class="nav-item">
-                    <a class="nav-link active" th:href="@{/register-new-user}">Register Now!</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item" th:if="${#authentication != null && #authentication.authenticated}">
-                <form action="#" th:action="@{/logout}" method="post" style="display:inline;">
-                  <button type="submit" class="nav-link" style="background: transparent; border: none; color: #ffffff; padding: 0;">
-                    Logout
-                </button>
-              </form>
-              </li>
-            </ul>
-        </div>
+            <a class="navbar-brand" th:href="@{/}">UTracker</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <!-- Show login link if user is not authenticated -->
+                    <li th:if="${#authentication == null || !#authentication.authenticated}" class="nav-item">
+                        <a class="nav-link" th:href="@{/login}">Login</a>
+                    </li>
+                    <!-- Always show dashboard link -->
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/dashboard}">Dashboard</a>
+                    </li>
+                    <!-- Show registration link if user is not authenticated -->
+                    <li th:if="${#authentication == null || !#authentication.authenticated}" class="nav-item">
+                        <a class="nav-link active" th:href="@{/register-new-user}">Register Now!</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <!-- Logout form displayed when user is authenticated -->
+                    <li class="nav-item" th:if="${#authentication != null && #authentication.authenticated}">
+                        <form action="#" th:action="@{/logout}" method="post" style="display:inline;">
+                            <button type="submit" class="nav-link" style="background: transparent; border: none; color: #ffffff; padding: 0;">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
+    <!-- Main content area -->
     <main role="main" class="container">
         <div class="starter-template">
             <h3>User Registration Form</h3>
 
-    <hr>
+            <hr>
 
-    <br><br>
+            <br><br>
 
-    <form action="#" th:action="@{/api/register-user}" th:object="${webUserDTO}" method="post">
+            <!-- User registration form -->
+            <form action="#" th:action="@{/api/register-user}" th:object="${webUserDTO}" method="post">
+                <p>
+                    User Name: <input type="text" th:field="*{username}" name="username" required />
+                </p>
+                <p>
+                    Password: <input type="password" th:field="*{password}" name="password" required />
+                </p>
+                <p>
+                    First Name: <input type="text" th:field="*{firstName}" name="firstName" required />
+                </p>
+                <p>
+                    Last Name: <input type="text" th:field="*{lastName}" name="lastName" required />
+                </p>
+                <p>
+                    Email: <input type="email" th:field="*{email}" name="email" required />
+                </p>
 
-        <p>
-            User name: <input type="text" th:field="*{username}" name="username" />
-        </p>
-        <p>
-            Password: <input type="password" th:field="*{password}" name="password" />
-        </p>
-        <p>
-            First Name: <input type="text" th:field="*{firstName}" name="firstName" />
-        </p>
-        <p>
-            Last Name: <input type="text" th:field="*{lastName}" name="lastName" />
-        </p>
-        <p>
-            Email: <input type="email" th:field="*{email}" name="email" />
-        </p>
+                <br><br>
 
-        <br><br>
+                <!-- Submit button for registration -->
+                <input type="submit" class="btn btn-primary" value="Register">
 
-        <input type="submit" name="Register">
+                <br>
 
-        <br>
-
-        <a th:href="@{/}">Return to home page</a>
-
-
-
-
-    </form>
+                <!-- Link to return to the home page -->
+                <a th:href="@{/}">Return to home page</a>
+            </form>
         </div>
     </main>
 
+    <!-- Bootstrap JS for functionality -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

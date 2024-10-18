@@ -1,53 +1,60 @@
-<!--Storing basic page template layout for webpages-->
+<!-- Storing basic page template layout for webpages -->
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- Meta tags for character set and responsive design -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
     <title>UTracker Home Page</title>
+    
+    <!-- Bootstrap CSS for styling -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/starter-template.css" rel="stylesheet">
 </head>
 <body>
+    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/}">UTracker</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav me-auto ">
-                <li class="nav-item dropdown pe-0">
-                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dashboard
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" th:href="@{/create-task}">Create New Task</a></li>
-                        <li><a class="dropdown-item" th:href="@{/delete-tasks}">Delete Task</a></li>
-                        <li><a class="dropdown-item" th:href="@{/update-user}">Update Account Info</a></li>
-                    </ul>
-                </li>
+            <a class="navbar-brand" th:href="@{/}">UTracker</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item dropdown pe-0">
+                        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Dashboard
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" th:href="@{/create-task}">Create New Task</a></li>
+                            <li><a class="dropdown-item" th:href="@{/delete-tasks}">Delete Task</a></li>
+                            <li><a class="dropdown-item" th:href="@{/update-user}">Update Account Info</a></li>
+                        </ul>
+                    </li>
                 </ul>
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item" th:if="${#authentication != null && #authentication.authenticated}">
-                <form action="#" th:action="@{/logout}" method="post" style="display:inline;">
-                  <button type="submit" class="nav-link" style="background: transparent; border: none; color: #ffffff; padding: 0;">
-                    Logout
-                </button>
-              </form>
-              </li>
-            </ul>
-        </div>
+                <ul class="navbar-nav ms-auto">
+                    <!-- Logout button for authenticated users -->
+                    <li class="nav-item" th:if="${#authentication != null && #authentication.authenticated}">
+                        <form action="#" th:action="@{/logout}" method="post" style="display:inline;">
+                            <button type="submit" class="nav-link" style="background: transparent; border: none; color: #ffffff; padding: 0;">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
     <main role="main" class="container">
         <div class="starter-template">
-            <h1>Bootstrap starter template</h1>
+            <h1>Bootstrap Starter Template</h1>
             <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
         </div>
     </main>
 
+    <!-- Bootstrap JS for functionality -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

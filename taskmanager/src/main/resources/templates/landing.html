@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- Meta tags for character set and viewport settings -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>UTracker Home Page</title>
@@ -8,34 +9,39 @@
     <link href="/css/starter-template.css" rel="stylesheet">
 </head>
 <body>
+    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/}">UTracker</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li th:if="${#authentication == null || !#authentication.authenticated}" class="nav-item"  >
-                    <a class="nav-link" th:href="@{/login}">Login</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" th:href="@{/dashboard}">Dashboard</a>
-                </li>
-                <li th:if="${#authentication == null || !#authentication.authenticated}" class="nav-item">
-                    <a class="nav-link" th:href="@{/register-new-user}">Register Now!</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item" th:if="${#authentication != null && #authentication.authenticated}">
-                <form action="#" th:action="@{/logout}" method="post" style="display:inline;">
-                  <button type="submit" class="nav-link" style="background: transparent; border: none; color: #ffffff; padding: 0;">
-                    Logout
-                </button>
-              </form>
-              </li>
-            </ul>
-        </div>
+            <a class="navbar-brand" th:href="@{/}">UTracker</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <!-- Login link for unauthenticated users -->
+                    <li th:if="${#authentication == null || !#authentication.authenticated}" class="nav-item">
+                        <a class="nav-link" th:href="@{/login}">Login</a>
+                    </li>
+                    <!-- Dashboard link -->
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/dashboard}">Dashboard</a>
+                    </li>
+                    <!-- Register link for unauthenticated users -->
+                    <li th:if="${#authentication == null || !#authentication.authenticated}" class="nav-item">
+                        <a class="nav-link" th:href="@{/register-new-user}">Register Now!</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <!-- Logout button for authenticated users -->
+                    <li class="nav-item" th:if="${#authentication != null && #authentication.authenticated}">
+                        <form action="#" th:action="@{/logout}" method="post" style="display:inline;">
+                            <button type="submit" class="nav-link" style="background: transparent; border: none; color: #ffffff; padding: 0;">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
