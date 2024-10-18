@@ -9,6 +9,20 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+/**
+ * Represents a task entity in the system.
+ *
+ * The Task entity holds relevant details about a task, including its name, start date, due date, status,
+ * and the user to whom the task is assigned. This entity is managed by JPA and mapped to a database table named "task".
+ *
+ * Fields:
+ * - id: Unique identifier for the task.
+ * - taskName: Name of the task. It must not be blank and should be 255 characters or less.
+ * - startDate: The date when the task started or will start. It must not be null and can be a past or present date.
+ * - dueDate: The date by which the task should be completed. It must be a future date.
+ * - taskStatus: Status of the task, indicating whether it is completed.
+ * - user: The user to whom the task is assigned. This field establishes a many-to-one relationship with the User entity.
+ */
 @Entity
 @Data
 @NoArgsConstructor

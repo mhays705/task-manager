@@ -9,9 +9,19 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TaskMapperImpl is an implementation of the TaskMapper interface,
+ * responsible for converting between Task entities and TaskDTOs.
+ */
 @Component
 public class TaskMapperImpl implements TaskMapper {
 
+	/**
+	 * Converts a Task entity to a TaskDTO.
+	 *
+	 * @param task The Task entity to be converted.
+	 * @return The converted TaskDTO.
+	 */
 	@Override
 	public TaskDTO toDTO(Task task) {
 
@@ -27,6 +37,12 @@ public class TaskMapperImpl implements TaskMapper {
 	}
 
 
+	/**
+	 * Converts an iterable collection of Task entities to a list of TaskDTOs.
+	 *
+	 * @param tasks an iterable collection of Task entities that need to be converted.
+	 * @return a list of TaskDTO objects converted from the provided Task entities.
+	 */
 	@Override
 	public List<TaskDTO> toDTO(Iterable<Task> tasks) {
 		List<TaskDTO> taskDTOS = new ArrayList<>();
@@ -38,6 +54,13 @@ public class TaskMapperImpl implements TaskMapper {
 		return taskDTOS;
 	}
 
+	/**
+	 * Converts a TaskDTO object to a Task entity.
+	 *
+	 * @param taskDTO the TaskDTO object to be converted
+	 * @param user the User object to be associated with the Task entity
+	 * @return the converted Task entity, or null if the input TaskDTO is null
+	 */
 	@Override
 	public Task toEntity(TaskDTO taskDTO, User user) {
 
@@ -58,6 +81,14 @@ public class TaskMapperImpl implements TaskMapper {
 	}
 
 
+	/**
+	 * Converts an iterable of TaskDTO objects to a list of Task entities,
+	 * associating each Task with the specified User.
+	 *
+	 * @param taskDTOS Iterable of TaskDTO objects to be converted.
+	 * @param user User entity to be associated with each Task.
+	 * @return List of Task entities converted from the provided TaskDTO objects.
+	 */
 	@Override
 	public List<Task> toEntity(Iterable<TaskDTO> taskDTOS, User user) {
 		List<Task> tasks = new ArrayList<>();

@@ -43,34 +43,56 @@
 
     <br><br>
 
-    <form action="#" th:action="@{/api/user/update-user-info}" th:object="${webUserDTO}" method="post">
+    <div class="container d-flex align-items-center justify-content-center ">
+        
+        
+    <form class="p-4 bg-light rounded shadow border" action="#" th:action="@{/api/user/update-user-info}" th:object="${webUserDTO}" method="post">
         <input type="hidden" name="_method" value="PATCH">
 
-        <div class="row">
+        <div class="row mb-3">
             <div class="col">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" th:field="*{username}"  />
+                <label for="username" class="form-label">Username:</label>
+            </div>
+            <div class="col mb">
+                <input type="text" id="username" name="username" th:field="*{username}" readonly  />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <label for="email" class="form-label">Email:</label>
             </div>
             <div class="col">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" th:field="*{email}" />            </div>
+                <input type="email" id="email" name="email" th:field="*{email}" />
+            </div>
         </div>
-        <div class="row">
+        
+        <div class="row mb-3">
             <div class="col">
-                <label for="firstName">First Name:</label>
+                <label for="firstName" class="form-label">First Name:</label>
+             </div>
+             <div class="col">
                 <input type="text" id="firstName" name="firstName" th:field="*{firstName}" />
              </div>
+        </div>
+        <div class="row mb-3">
             <div class="col">
-                <label for="lastName">Last Name:</label>
+                <label for="lastName" class="form-label">Last Name:</label>
+             </div>
+             <div class="col">
                 <input type="text" id="lastName" name="lastName" th:field="*{lastName}" />
              </div>
             </div>
-            <div class="row">
+            <div class="row mb-3">
                 <button type="submit" class="btn btn-success btn-large btn-block">Update User Info</button>
             </div>
+            <div class="row">
+                    <a class="btn btn-primary btn-large btn-block" th:href="@{/dashboard}">Return To Dashboard</a>
+            </div>
+        
     </form>
+</div>
 
-    <a class="btn btn-primary btn-large btn-block" th:href="@{/dashboard}">Return To Dashboard</a>
+    
 
 
         </div>

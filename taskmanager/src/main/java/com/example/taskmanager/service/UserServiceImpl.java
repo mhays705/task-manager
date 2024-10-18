@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Service implementation for handling user-related operations.
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -23,6 +26,14 @@ public class UserServiceImpl implements UserService {
 	private final RoleService roleService;
 	private final UserMapper userMapper;
 
+	/**
+	 * Constructs a new instance of UserServiceImpl.
+	 *
+	 * @param userRepository the repository for user data
+	 * @param passwordEncoder the encoder for handling user passwords
+	 * @param roleService service for managing roles
+	 * @param userMapper the mapper for converting between User and UserDTO entities
+	 */
 	@Autowired
 	public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder,
 						   RoleService roleService, UserMapper userMapper) {
@@ -33,6 +44,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 
+	/**
+	 * Registers a new user by saving their information to the database after validating
+	 * that the email and username do not already exist.
+	 *
+	 * @param webUserDTO the data transfer object containing user registration information
+	 * @return the data transfer object representing the registered user
+	 */
 	@Override
 	@Transactional
 	public UserDTO registerUser(WebUserDTO webUserDTO) {
@@ -56,6 +74,12 @@ public class UserServiceImpl implements UserService {
 		return userMapper.toDTO(user);
 	}
 
+	/**
+	 * Retrieves a UserDTO object by the given username.
+	 *
+	 * @param username the username of the user to be retrieved
+	 * @return an Optional containing the UserDTO if found, or an empty Optional if not found
+	 */
 	@Override
 	public Optional<UserDTO> getUserDTOByUsername(String username) {
 		User user =userRepository.findByUsername(username);
@@ -67,17 +91,36 @@ public class UserServiceImpl implements UserService {
 				}
 	}
 
+	/**
+	 * Retrieves a User object by its username.
+	 *
+	 * @param username the username to search for
+	 * @return the User object associated with the given username
+	 */
 	@Override
 	public User getUserByUsername(String username) {
 		return userRepository.findByUsername(username);
 	}
 
+	/**
+	 * Retrieves a user by their unique identifier.
+	 *
+	 * @param id the unique identifier of the user
+	 * @return an optional containing the UserDTO if found, or an empty optional if not found
+	 */
 	@Override
 	public Optional<UserDTO> getUserById(int id) {
 		return userRepository.findById(id)
 				.map(userMapper::toDTO);
 	}
 
+	/**
+	 * Updates the user corresponding to the provided WebUserDTO.
+	 *
+	 * @param webUserDTO Data Transfer Object containing the updated user information.
+	 * @return An Optional containing the updated UserDTO if the user is successfully updated;
+	 *         otherwise, throws a RuntimeException if the user is not found.
+	 */
 	@Override
 	@Transactional
 	public Optional<UserDTO> updateUser(WebUserDTO webUserDTO) {
@@ -98,7 +141,13 @@ public class UserServiceImpl implements UserService {
 
 
 
-	/** Helper method for updateUser */
+	/**
+	 * Updates the fields of an existing User entity based on the non-null values from a WebUserDTO.
+	 *
+	 * @param existingUser The User entity to update.
+	 * @param webUserDTO The WebUserDTO containing updated field values. Non-null and unequal values
+	 * in this DTO will be used to update the fields of the existing user.
+	 */
 	@Transactional
 	public void updateFields(User existingUser, WebUserDTO webUserDTO) {
 		if (webUserDTO.getUsername() != null && !webUserDTO.getUsername().equals(existingUser.getUsername())) {
@@ -115,11 +164,22 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	/**
+	 * Retrieves all user records from the database and converts them into a list of UserDTO objects.
+	 *
+	 * @return a list of UserDTO objects representing all users in the system.
+	 */
 	@Override
 	public List<UserDTO> getAllUsers() {
 		return userMapper.toDTO(userRepository.findAll());
 	}
 
+	/**
+	 * Deletes a user by their ID.
+	 *
+	 * @param id the unique identifier of the user to be deleted
+	 * @return true if the user was successfully deleted, false if the user was not found
+	 */
 	@Override
 	@Transactional
 	public boolean deleteUser(int id) {

@@ -11,6 +11,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents a Data Transfer Object (DTO) for web user information.
+ *
+ * This class is used to capture and validate user data during web interactions,
+ * typically during registration or updating user details. It includes various
+ * validation annotations to ensure the integrity and correctness of the data
+ * provided by the user.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

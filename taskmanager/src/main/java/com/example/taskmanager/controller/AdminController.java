@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Rest controller to manage administrative operations for users and tasks.
+ */
 @RestController
 @RequestMapping("/api")
 public class AdminController {
@@ -28,6 +31,13 @@ public class AdminController {
     private final TaskService taskService;
     private final UserMapper userMapper;
 
+    /**
+     * Constructor for AdminController that initializes the required services and mappers.
+     *
+     * @param userService the service to handle user-related operations
+     * @param taskService the service to handle task-related operations
+     * @param userMapper the mapper to convert between User entities and UserDTOs
+     */
     @Autowired
     public AdminController(UserService userService, TaskService taskService,
                            UserMapper userMapper) {
@@ -37,6 +47,13 @@ public class AdminController {
     }
 
 
+    /**
+     * Deletes a user based on the provided username.
+     *
+     * @param username the username of the user to be deleted
+     * @return a ResponseEntity with status 204 (No Content) if the deletion was successful,
+     *         or status 404 (Not Found) if the user was not found
+     */
     @DeleteMapping("/admin/delete-user/{username}")
     public ResponseEntity<Void> deleteUser(@PathVariable String username) {
 
@@ -48,6 +65,9 @@ public class AdminController {
 
     }
 
+    /**
+     *
+     */
     @PostMapping("/admin/create-user")
     public ResponseEntity<UserDTO> createNewUser(@RequestBody WebUserDTO webUserDTO) {
         UserDTO newUser = userService.registerUser(webUserDTO);
@@ -60,6 +80,14 @@ public class AdminController {
     }
 
 
+    /**
+     * Creates a new task for a specified user.
+     *
+     * @param id The ID of the user for whom the task is being created.
+     * @param webTaskDTO The data transfer object containing the details of the task to be created.
+     * @param bindingResult Holds the result of a validation and binding and contains errors that may have occurred.
+     * @return ResponseEntity containing the created TaskDTO if successful, or a bad request status if there were validation errors.
+     */
     @PostMapping("/admin/create-task/{id}")
     public ResponseEntity<TaskDTO> createTask(@PathVariable int id, @Valid @ModelAttribute WebTaskDTO webTaskDTO, BindingResult bindingResult) {
 
@@ -76,6 +104,12 @@ public class AdminController {
     }
 
 
+    /**
+     * Deletes a list of user tasks based on the provided task IDs.
+     *
+     * @param selectedItems - List of task IDs to be deleted.
+     * @return ResponseEntity<String> - Returns a response indicating the outcome of the delete operation.
+     */
     @DeleteMapping("/admin/delete-user-tasks")
     public ResponseEntity<String> deleteUserTasks(@RequestParam List<Integer> selectedItems) {
 

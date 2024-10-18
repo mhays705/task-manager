@@ -42,21 +42,41 @@
 
     <main role="main" class="container">
         <div class="starter-template">
+            <div class="text-center">
             <h3>User Login</h3>
+            </div>
 
             <hr>
-            <br><br>
-            <form action="#" th:action="@{/authenticateUser}" method="post">
-        
-                <p>
-                    Username: <input type = "text" name="username" />
-                </p>
-        
-                <p>
-                    Password: <input type = "password" name="password" />
-                </p>
-        
-                <input type="submit" btn name="Login">
+
+            <div class="container d-flex align-items-center justify-content-center ">
+            <form class="p-4 bg-light rounded shadow border" action="#" th:action="@{/authenticateUser}" method="post">
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="username" class="form-label">Username:</label>
+                    </div>
+                    <div class="col">
+                        <input type="text" name="username" id="username">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="password" class="form-label">Password:</label>
+                    </div>
+                    <div class="col">
+                        <input type="password" name="password" id="password">
+                    </div>
+                </div>
+
+
+                <div class="row mb-3">
+                    <button type="submit" class="btn btn-success btn-large btn-block">Login</button>
+                </div>
+
+                <div class="row mb-3">
+                    <a  class="btn btn-primary btn-large btn-block" th:href="@{/}">Return to Home Page</a>
+                </div>
         
         
         
@@ -64,12 +84,7 @@
         
         
             </form>
-            
-        
-        
-            <br>
-        
-            <a th:href="@{/}">Return to home page</a>
+        </div>
         </div>
     </main>
 

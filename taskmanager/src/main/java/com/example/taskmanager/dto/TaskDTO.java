@@ -14,6 +14,20 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+/**
+ * Data Transfer Object (DTO) representing a task in the system.
+ *
+ * The TaskDTO class is used to encapsulate data for task operations,
+ * including creation, reading, and updating tasks.
+ *
+ * Fields:
+ * - id: A unique identifier for the task.
+ * - taskName: The name of the task, which must not be blank and should be 255 characters or less.
+ * - startDate: The date when the task starts or started. It must not be blank and must be in the past or present.
+ * - dueDate: The date by which the task should be completed. It must be a future date.
+ * - user: The user associated with the task.
+ * - taskStatus: The status of the task, indicating whether it is completed.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

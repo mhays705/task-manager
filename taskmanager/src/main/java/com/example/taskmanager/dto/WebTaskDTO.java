@@ -10,6 +10,12 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+/**
+ * Data Transfer Object for a web-based task.
+ *
+ * This class is used to transfer task-related data
+ * between the web layer and the service layer.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

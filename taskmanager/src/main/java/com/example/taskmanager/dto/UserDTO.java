@@ -14,6 +14,12 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Represents a Data Transfer Object (DTO) for user information.
+ *
+ * This class is used to transfer user data between processes and layers of an application.
+ * It includes validation rules to ensure the integrity of the user data.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

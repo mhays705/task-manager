@@ -7,6 +7,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents a role entity in the system.
+ *
+ * The Role entity is used to define specific roles or permissions
+ * that can be assigned to users. Roles are used for access control,
+ * determining what actions a user is allowed to perform in the application.
+ *
+ * Roles are identified uniquely by their ID and have a name attribute to
+ * specify the type of role, such as "ADMIN", "USER", etc.
+ *
+ * This entity is managed by JPA and mapped to a database table named "roles".
+ */
 @Entity
 @Data
 @NoArgsConstructor
