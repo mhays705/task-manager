@@ -3,6 +3,9 @@
 ## Project Overview
 UTracker is a robust web-based task management application designed to help users organize their tasks effectively. Built with Spring Boot, Thymeleaf, and Bootstrap, UTracker provides a user-friendly interface for creating, updating, and managing tasks. This project demonstrates my ability to develop full-stack applications using modern web technologies.
 
+**Note**: UTracker is still a work in progress, and I plan to add more features and improvements in the future.
+
+
 ## Key Features
 - **User Registration & Authentication**: Secure user registration and login functionality using Spring Security and BCrypt password hashing.
 - **Task Management**: 
