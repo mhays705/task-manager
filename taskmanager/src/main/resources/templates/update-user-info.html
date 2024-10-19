@@ -49,9 +49,9 @@
 
             <br><br>
 
-            <div class="container d-flex align-items-center justify-content-center">
+            <div class="container d-flex align-items-center justify-content-center pt-5">
                 <!-- Form for updating user information -->
-                <form class="p-4 bg-light rounded shadow border" 
+                <form class="p-4 bg-light rounded shadow border mt-5" 
                       action="#" th:action="@{/api/user/update-user-info}" th:object="${webUserDTO}" method="post">
                     <input type="hidden" name="_method" value="PATCH">
 
