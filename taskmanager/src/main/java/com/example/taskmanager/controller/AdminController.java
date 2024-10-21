@@ -101,27 +101,22 @@ public class AdminController {
 	}
 
 
-	/**
-	 * Creates a new task for a specified user.
-	 *
-	 * @param id            The ID of the user for whom the task is being created.
-	 * @param webTaskDTO    The data transfer object containing the details of the task to be created.
-	 * @param bindingResult Holds the result of a validation and binding and contains errors that may have occurred.
-	 * @return ResponseEntity containing the created TaskDTO if successful, or a bad request status if there were validation errors.
-	 */
-	@PostMapping("/admin/create-task/{id}")
-	public ResponseEntity<TaskDTO> createTask(@PathVariable int id, @Valid @ModelAttribute WebTaskDTO webTaskDTO, BindingResult bindingResult) {
+
+	@PostMapping("/admin/create-task/{username}")
+	public ResponseEntity<TaskDTO> createTask(@PathVariable String username, @Valid @ModelAttribute WebTaskDTO webTaskDTO, BindingResult bindingResult) {
 
 		if (bindingResult.hasErrors()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		User user = userService.getUserById(id)
-				.map(userMapper::toEntity)
-				.orElseThrow(() -> new RuntimeException("User with id: " + id + " not found"));
-		String username = user.getUsername();
-		TaskDTO newTask = taskService.createTask(webTaskDTO, username);
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(newTask);
+		try {
+			TaskDTO newTask = taskService.createTask(webTaskDTO, username);
+			return ResponseEntity.status(HttpStatus.CREATED).body(newTask);
+		}
+
+		catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 
 
