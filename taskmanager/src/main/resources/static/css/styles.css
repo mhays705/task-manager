@@ -1,0 +1,54 @@
+/* Background Image Styles */
+.bg-image {
+    background-image: url('/images/landing-background.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Text Overlay Styles */
+.text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    padding: 5px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+/* Lead Text Styles */
+.lead {
+    font-weight: bold;
+    font-size: 1.0rem;
+}
+
+/* Body and Layout Styles */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: 56px; /* Bootstrap navbar height */
+}
+
+/* Content Flexibility */
+.content {
+    flex: 1;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #343a40;
+    color: white;
+}
+
+/* Starter Template Styles */
+.starter-template {
+    padding: 3rem 1.5rem;
+    text-align: center;
+}

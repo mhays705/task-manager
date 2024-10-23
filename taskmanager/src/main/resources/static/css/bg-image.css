@@ -1,9 +1,0 @@
-.bg-image {
-    background-image: url('/images/landing-background.jpg');
-    background-size: cover; /* Cover the entire section */
-    background-position: center; /* Center the image */
-    height: 400px; /* Set a height for the section */
-    display: flex; /* Center content vertically */
-    align-items: center; /* Center content vertically */
-    justify-content: center; /* Center content horizontally */
-}
