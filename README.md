@@ -35,6 +35,7 @@ UTracker is a robust web-based task management application designed to help user
 ### Frontend:
 - **Thymeleaf**: Template engine for rendering dynamic content in HTML views.
 - **Bootstrap**: Provides responsive design elements for a modern and mobile-friendly UI.
+  **Note**: HTML and CSS is probably not the greatest I learned as I went and am still learning. Project is more of a showcase of the backend.
 
 ### Security:
 - **BCrypt**: Used for password hashing to enhance security.
@@ -57,6 +58,7 @@ To explore the features of UTracker, visit the registration page to create an ac
 - Implement user notifications for task reminders.
 - Integrate a calendar view for better task visualization.
 - Add functionality for recurring tasks.
+- Add JavaScript features when I learn it.
 - And more when thought of.
 
 ## Acknowledgements
