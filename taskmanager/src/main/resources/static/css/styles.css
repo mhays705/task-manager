@@ -45,10 +45,16 @@ body {
 footer {
     background-color: #343a40;
     color: white;
+    font-size: 10px;
 }
 
 /* Starter Template Styles */
 .starter-template {
     padding: 3rem 1.5rem;
     text-align: center;
+}
+
+/* Extra spacing from navbar for the content */
+.content-spacing {
+    padding-top: 30px; /* Add some padding instead of margin for top space */
 }
