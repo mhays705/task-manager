@@ -58,3 +58,9 @@ footer {
 .content-spacing {
     padding-top: 30px; /* Add some padding instead of margin for top space */
 }
+
+/* Custom styles for read-only input */
+.readonly-input {
+    background-color: #f5f5f5; /* Light gray background */
+    color: #6c757d; /* Gray text color */
+}
