@@ -69,6 +69,7 @@
 
         <div th:if="${!tasks.isEmpty()}" class="starter-template">
             <h1>Task List</h1>
+            <hr><br><br>
 
             <!-- Form for updating task status -->
             <form action="#" th:action="@{/api/task/update-status}" method="post" onsubmit="return validateForm()">

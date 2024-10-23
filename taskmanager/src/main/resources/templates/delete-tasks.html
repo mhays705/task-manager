@@ -61,8 +61,7 @@
 
         <div th:if="${!tasks.isEmpty()}" class="starter-template">
             <h1>Task List</h1>
-            <hr>
-            <br><br>
+            <hr><br><br>
             <!-- Form to delete selected tasks -->
             <form action="#" th:action="@{/api/task/delete-tasks}" method="post" onsubmit="return validateForm()">
                 <input type="hidden" name="_method" value="DELETE">
@@ -88,7 +87,7 @@
                 </table>
 
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-success btn-large w-100">Update Tasks</button>
+                    <button type="submit" class="btn btn-success btn-large w-100">Delete Tasks</button>
                 </div>
             </form>
         </div>
