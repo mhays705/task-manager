@@ -58,6 +58,7 @@ To explore the features of UTracker, visit the registration page to create an ac
 - Implement user notifications for task reminders.
 - Integrate a calendar view for better task visualization.
 - Add functionality for recurring tasks.
+- Add JavaScript features when I learn it.
 - And more when thought of.
 
 ## Acknowledgements
