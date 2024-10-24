@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	@Transactional
-	@Validated(OnCreate.class)
+
 	public UserDTO registerUser(WebUserDTO webUserDTO) {
 
 		if (userRepository.existsByEmail(webUserDTO.getEmail()) || userRepository.existsByUsername(webUserDTO.getUsername())) {
@@ -127,7 +127,6 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	@Transactional
-	@Validated(OnUpdate.class)
 	public Optional<UserDTO> updateUser(WebUserDTO webUserDTO) {
 	User user = userRepository.findByUsername(webUserDTO.getUsername());
 	if (user == null) {

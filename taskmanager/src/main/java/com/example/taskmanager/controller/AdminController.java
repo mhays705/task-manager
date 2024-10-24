@@ -110,19 +110,21 @@ public class AdminController {
 		return "admin-create-user-task";
 	}
 
+
 	/**
-	 * Handles the user information update request through a PATCH mapping.
+	 * Updates the user information.
 	 *
-	 * This method validates the user-provided data, updates the user information if the data is valid,
-	 * and sets appropriate flash attributes to provide feedback to the user.
+	 * This method handles the update of a user's information. It validates the provided data and updates
+	 * the user if the data is valid. In case of validation errors, it returns to the user info update page.
+	 * Upon successful update, it redirects to the admin dashboard with a success message or an error message if the update fails.
 	 *
-	 * @param webUserDTO the data transfer object containing updated user information
-	 * @param bindingResult the object holding the results of the validation and binding errors
-	 * @param redirectAttributes the object to add attributes for the redirect scenario
+	 * @param webUserDTO the Data Transfer Object containing the updated user information
+	 * @param bindingResult holds the result of the validation and binding of the webUserDTO
+	 * @param redirectAttributes attributes for a redirect scenario to pass along flash attributes
 	 * @return a string representing the view name to be rendered or the redirect target
 	 */
 	@PatchMapping("/update-user-info")
-	public String updateUserInfo(@Valid @ModelAttribute("webUserDTO")WebUserDTO webUserDTO,
+	public String updateUserInfo(@Validated(OnUpdate.class) @ModelAttribute("webUserDTO")WebUserDTO webUserDTO,
 								 BindingResult bindingResult,
 								 RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {

@@ -36,10 +36,14 @@ public class UserController {
 	}
 
 
+
 	/**
-	 * Registers a new user with the provided user details.
+	 * Registers a new user based on the provided WebUserDTO.
 	 *
-	 * @param webUserDTO the DTO containing web user information for registration
+	 * This method validates the incoming user data, registers the user 
+	 * if valid, and redirects appropriately with success or error messages.
+	 *
+	 * @param webUserDTO the DTO containing web user information to be registered
 	 * @param bindingResult the binding result holding validation errors if any
 	 * @param redirectAttributes the attributes used for redirecting with flash messages
 	 * @return a string representing the view name or redirect URL
@@ -67,16 +71,17 @@ public class UserController {
 
 	}
 
+
 	/**
-	 * Handles the user information update request through a PATCH mapping.
+	 * Updates the user information based on the provided web user DTO.
 	 *
-	 * This method validates the user-provided data, updates the user information if the data is valid,
-	 * and sets appropriate flash attributes to provide feedback to the user.
+	 * This method validates the incoming user data, updates the user information
+	 * if valid, and redirects to the dashboard with appropriate success or error messages.
 	 *
-	 * @param webUserDTO the data transfer object containing updated user information
-	 * @param bindingResult the object holding the results of the validation and binding errors
-	 * @param redirectAttributes the object to add attributes for the redirect scenario
-	 * @return a string representing the view name to be rendered or the redirect target
+	 * @param webUserDTO the DTO containing web user information to be updated
+	 * @param bindingResult the binding result holding validation errors if any
+	 * @param redirectAttributes the attributes used for redirecting with flash messages
+	 * @return a string representing the view name or redirect URL
 	 */
 	@PatchMapping("/update-user-info")
 	public String updateUserInfo(@Validated(OnUpdate.class) @ModelAttribute("webUserDTO")WebUserDTO webUserDTO,
