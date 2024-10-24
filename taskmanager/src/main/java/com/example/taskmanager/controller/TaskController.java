@@ -1,143 +1,114 @@
 package com.example.taskmanager.controller;
 
+
 import com.example.taskmanager.dto.WebTaskDTO;
-import com.example.taskmanager.mapper.UserMapper;
 import com.example.taskmanager.service.TaskService;
-import com.example.taskmanager.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.ui.Model;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.net.URI;
 import java.util.List;
 
-/**
- * TaskController is a REST controller for handling task-related operations.
- *
- * This controller provides endpoints for creating, deleting, and updating the status of tasks.
- * It interacts with the TaskService to perform these operations and returns appropriate
- * HTTP status codes and response bodies.
- */
-@RestController
-@RequestMapping("/api")
+@Controller
+@RequestMapping("/task")
 public class TaskController {
 
-    private final TaskService taskService;
-    private final UserService userService;
-	private final UserMapper userMapper;
-
-    /**
-	 * Constructs a new TaskController with the specified userService, taskService, and userMapper.
-	 *
-	 * @param userService the user service to interact with user-related operations
-	 * @param taskService the task service to manage task-related operations
-	 * @param userMapper  the user mapper for converting User entities to DTOs
-	 */
-	@Autowired
-    public TaskController(UserService userService, TaskService taskService,
-						  UserMapper userMapper) {
-        this.taskService = taskService;
-        this.userService = userService;
-		this.userMapper = userMapper;
-    }
-
-
-
-
-
-    /**
-	 * Creates a new task based on the provided WebTaskDTO and current authenticated user.
-	 *
-	 * @param webTaskDTO the Data Transfer Object containing task details for task creation.
-	 * @param bindingResult encapsulates validation results after binding the provided WebTaskDTO.
-	 * @return a ResponseEntity indicating the result of the task creation;
-	 *         returns a 302 FOUND status on successful creation with a location header to the dashboard,
-	 *         and a 400 BAD REQUEST status if there are validation errors or the user is not authenticated.
-	 */
-	@PostMapping("/task/create-task")
-    public ResponseEntity<String> createTask(@Valid @ModelAttribute WebTaskDTO webTaskDTO,
-                                             BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()){
-            return ResponseEntity.badRequest().build();
-        }
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication == null || !authentication.isAuthenticated()) {
-			return ResponseEntity.badRequest().build();
-		}
-
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-		String username = userDetails.getUsername();
-        taskService.createTask(webTaskDTO, username);
-
-        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("/dashboard")).build();
-    }
+	private final TaskService taskService;
 
 	/**
-	 * Deletes the selected tasks.
+	 * Constructor for TaskController.
 	 *
-	 * This method removes the tasks identified by the provided list of IDs from the system.
-	 * If no tasks are selected, it returns a bad request response.
-	 * On successful deletion of tasks, it redirects to the dashboard.
+	 * This constructor injects the TaskService dependency, which is used for managing
+	 * task-related operations like creating, deleting, and updating tasks.
 	 *
-	 * @param selectedItems A list of task IDs to be deleted. Must not be null or empty.
-	 * @return A ResponseEntity with an appropriate HTTP status and response body.
+	 * @param taskService the service used for task operations
 	 */
-	@DeleteMapping("/task/delete-tasks")
-	public ResponseEntity<String> deleteTask(@RequestParam List<Integer> selectedItems) {
+	@Autowired
+	public TaskController(TaskService taskService) {
+		this.taskService = taskService;
+	}
 
-		if(selectedItems == null || selectedItems.isEmpty()) {
-			return ResponseEntity.badRequest().body("No tasks selected for deletion");
+	/**
+	 * Handles the POST request to create a new task.
+	 *
+	 * This method is responsible for processing the form submission for creating a new task.
+	 * It validates the input data, creates the task, and redirects to the dashboard with a success message upon successful creation.
+	 *
+	 * @param webTaskDTO the data transfer object containing task details
+	 * @param bindingResult the result of the validation and data binding
+	 * @param authentication the authentication object containing the current user details
+	 * @param redirectAttributes attributes for the redirect scenario, used to store flash attributes
+	 * @return the view name to be redirected to after processing the request
+	 */
+	@PostMapping("/create")
+	public String createTask(@Valid @ModelAttribute("webTaskDTO")WebTaskDTO webTaskDTO,
+							 BindingResult bindingResult,
+							 Authentication authentication,
+							 RedirectAttributes redirectAttributes) {
+
+		if (bindingResult.hasErrors()) {
+			return "create-task";
 		}
 
-		for (Integer id : selectedItems) {
+		String username = authentication.getName();
+		taskService.createTask(webTaskDTO, username);
+
+		redirectAttributes.addFlashAttribute("successMessage", "Task created successfully!");
+		return "redirect:/dashboard";
+	}
+
+
+	/**
+	 * Handles the deletion of selected tasks.
+	 *
+	 * This method processes the incoming request to delete multiple tasks specified by their IDs.
+	 * It delegates the actual deletion to the task service and stores a success message
+	 * as a flash attribute for redirection to the dashboard.
+	 *
+	 * @param selectedItems a list of task IDs to be deleted
+	 * @param redirectAttributes attributes for storing flash attributes to be used in a redirect scenario
+	 * @return the view name to be redirected to after processing the request
+	 */
+	@DeleteMapping("/delete")
+	public String deleteTasks(@RequestParam List<Integer> selectedItems,
+							  RedirectAttributes redirectAttributes) {
+
+		for (int id : selectedItems) {
 			taskService.deleteTask(id);
 		}
 
-		return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "/dashboard").build();
+		redirectAttributes.addFlashAttribute("successMessage", "Selected tasks successfully delete.");
+
+		return "redirect:/dashboard";
 	}
 
 	/**
-	 * Updates the status of the selected tasks.
+	 * Updates the status of selected tasks.
 	 *
-	 * This method receives a list of task IDs and toggles their status
-	 * between completed and not completed. If the list is null or empty,
-	 * it returns a bad request response.
+	 * This method toggles the status of each task specified by its ID, provided in the selectedItems list.
+	 * It delegates the status toggling to the task service and stores a success message
+	 * as a flash attribute for redirection to the dashboard.
 	 *
-	 * @param selectedItems the list of task IDs to update
-	 * @return a ResponseEntity indicating the result of the operation,
-	 * including a redirect to the dashboard on success or an error message on failure
+	 * @param selectedItems a list of task IDs whose status needs to be updated
+	 * @param redirectAttributes attributes for storing flash attributes to be used in a redirect scenario
+	 * @return the view name to be redirected to after processing the request
 	 */
-	@PatchMapping("/task/update-status")
-	public ResponseEntity<String> updateTaskStatus(@RequestParam List<Integer> selectedItems) {
+	@PatchMapping("/update-status")
+	public String updateTaskStatus(@RequestParam List<Integer> selectedItems,
+								   RedirectAttributes redirectAttributes) {
 
-		if (selectedItems == null || selectedItems.isEmpty()) {
-			return ResponseEntity.badRequest().body("No tasks selected to mark complete.");
-		}
-
-		for (Integer id : selectedItems) {
+		for (int id : selectedItems) {
 			taskService.toggleTaskStatus(id);
 		}
 
-		return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION,"/dashboard").build();
+		redirectAttributes.addFlashAttribute("successMessage", "Selected tasks status' updated.");
 
-
+		return "redirect:/dashboard";
 	}
-
-
-
-
-
-
 
 
 }

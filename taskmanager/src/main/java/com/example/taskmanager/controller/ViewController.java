@@ -72,15 +72,21 @@ public class ViewController {
 	}
 
 	/**
-	 * Handles the GET request for displaying the user registration page.
+	 * Displays the user registration form.
 	 *
-	 * @param model the Model object to pass attributes to the view
-	 * @return the name of the view template to render, specifically "register-user"
+	 * This method handles GET requests to "/register-new-user". It adds an empty WebUserDTO
+	 * object to the model to be used by the registration form.
+	 *
+	 * @param model The Model object used to pass attributes to the view.
+	 * @return The name of the view template for user registration.
 	 */
-	@GetMapping("/register-user")
-	public String showRegisterUserPage(Model model) {
-		model.addAttribute("webUser", new WebUserDTO());
-		return "register-user";
+	@GetMapping("/register-new-user")
+	public String showUserRegistrationForm(Model model) {
+
+		model.addAttribute("webUserDTO", new WebUserDTO());
+
+		return "user-registration-form";
+
 	}
 
 	/**
@@ -100,7 +106,7 @@ public class ViewController {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
 		if (userDetails.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
-			return "redirect:/admin-dashboard";
+			return "redirect:/admin/dashboard";
 		}
 
 		int id = userService.getUserByUsername(userDetails.getUsername()).getId();
@@ -158,7 +164,7 @@ public class ViewController {
 	 * @return the name of the view to render, or a redirection to the login page if the user is not authenticated
 	 */
 	@GetMapping("/update-task-status")
-	public String showCompleteTasksPage(Model model, Authentication authentication) {
+	public String showUpdateTaskStatusPage(Model model, Authentication authentication) {
 
 		if (authentication == null || !authentication.isAuthenticated()) {
 			return "redirect:/login";
@@ -176,70 +182,6 @@ public class ViewController {
 		return "update-task-status";
 	}
 
-
-	/**
-	 * Displays the user registration form.
-	 *
-	 * This method handles GET requests to "/register-new-user". It adds an empty WebUserDTO
-	 * object to the model to be used by the registration form.
-	 *
-	 * @param model The Model object used to pass attributes to the view.
-	 * @return The name of the view template for user registration.
-	 */
-	@GetMapping("/register-new-user")
-	public String showUserRegistrationForm(Model model) {
-
-		model.addAttribute("webUserDTO", new WebUserDTO());
-
-		return "user-registration-form";
-
-	}
-
-	/**
-	 * Handles GET requests to the /admin-dashboard endpoint and returns the view for the admin dashboard.
-	 *
-	 * This method checks if the current authentication is valid, retrieves a list of all users,
-	 * adds the list to the model, and returns the admin-dashboard view. If authentication
-	 * is not valid, it redirects to the login page.
-	 *
-	 * @param model The Model object used to pass attributes to the view.
-	 * @param authentication The Authentication object representing the current user's authentication state.
-	 * @return The name of the view to be rendered, either "admin-dashboard" or a redirect to "login".
-	 */
-	@GetMapping("/admin-dashboard")
-	public String showAdminDashboard(Model model, Authentication authentication) {
-
-		if (authentication == null || !authentication.isAuthenticated()) {
-			return "redirect:/login";
-		}
-
-		List<UserDTO> users = userService.getAllUsers();
-
-		model.addAttribute("users", users);
-
-
-		return "admin-dashboard";
-
-	}
-
-
-	/**
-	 * Displays the tasks associated with a specific user for an admin, allowing for their deletion.
-	 *
-	 * @param username the username of the user whose tasks are to be displayed
-	 * @param model the Model object used to pass attributes to the view
-	 * @return the name of the view to render, which in this case is "admin-user-tasks"
-	 */
-	@GetMapping("/admin-user-tasks/{username}")
-	public String showUserTasks(@PathVariable String username, Model model) {
-
-		User user = userService.getUserByUsername(username);
-		List<TaskDTO> tasks = taskService.getTasksByUserId(user.getId());
-		model.addAttribute("tasks", tasks);
-		model.addAttribute("username", username);
-
-		return "admin-user-tasks";
-	}
 
 	/**
 	 * Handles the GET request to display the update user information page.
@@ -268,7 +210,7 @@ public class ViewController {
 	}
 
 	@GetMapping("/admin-create-user-task/{username}")
-	public String createUserTask(@PathVariable String username, Model model) {
+	public String showCreateUserTask(@PathVariable String username, Model model) {
 
 		model.addAttribute("webTaskDTO", new WebTaskDTO());
 		model.addAttribute("username", username);

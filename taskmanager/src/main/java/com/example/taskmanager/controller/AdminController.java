@@ -1,163 +1,165 @@
 package com.example.taskmanager.controller;
 
+
 import com.example.taskmanager.dto.TaskDTO;
 import com.example.taskmanager.dto.UserDTO;
 import com.example.taskmanager.dto.WebTaskDTO;
 import com.example.taskmanager.dto.WebUserDTO;
 import com.example.taskmanager.entity.User;
-import com.example.taskmanager.mapper.UserMapper;
 import com.example.taskmanager.service.TaskService;
 import com.example.taskmanager.service.UserService;
+import com.example.taskmanager.validation.OnUpdate;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
-/**
- * Rest controller to manage administrative operations for users and tasks.
- */
-@RestController
-@RequestMapping("/api")
+@Controller
+@RequestMapping("/admin")
 public class AdminController {
+
 
 	private final UserService userService;
 	private final TaskService taskService;
-	private final UserMapper userMapper;
 
 	/**
-	 * Constructor for AdminController that initializes the required services and mappers.
+	 * Creates an instance of AdminController.
 	 *
-	 * @param userService the service to handle user-related operations
-	 * @param taskService the service to handle task-related operations
-	 * @param userMapper  the mapper to convert between User entities and UserDTOs
+	 * This constructor initializes the AdminController with the provided UserService and TaskService
+	 * to manage users and tasks, respectively.
+	 *
+	 * @param userService the service to manage user-related operations
+	 * @param taskService the service to manage task-related operations
 	 */
 	@Autowired
-	public AdminController(UserService userService, TaskService taskService,
-						   UserMapper userMapper) {
+	public AdminController(UserService userService,
+						   TaskService taskService) {
 		this.userService = userService;
-		this.taskService = taskService;
-		this.userMapper = userMapper;
+		this.taskService =taskService;
 	}
 
 
 	/**
-	 * Deletes a user based on the provided username.
+	 * Displays the admin dashboard.
 	 *
-	 * This method handles the deletion of a user from the system. It verifies if the user exists,
-	 * attempts to delete the user, and adds appropriate flash attributes indicating the result
-	 * of the operation.
+	 * This method is responsible for rendering the administrator's dashboard view. It checks if the
+	 * current user is authenticated and has the appropriate administrative roles. If not, it redirects
+	 * the user to the appropriate login or user dashboard pages. Otherwise, it loads all users and
+	 * includes this data in the model for the admin dashboard view.
 	 *
-	 * @param username the username of the user to be deleted.
-	 * @param redirectAttributes attributes for a redirect scenario.
-	 * @return ResponseEntity<Void> indicating the status of the operation and redirection.
+	 * @param model the model object to add attributes to be used in the view
+	 * @param authentication the authentication object representing the currently logged-in user
+	 * @return a string indicating the view name to be rendered
 	 */
-	@DeleteMapping("/admin/delete-user/{username}")
-	public ResponseEntity<Void> deleteUser(
-			@PathVariable String username,
-			RedirectAttributes redirectAttributes) {
+	@GetMapping("/dashboard")
+	public String showAdminDashboard(Model model, Authentication authentication) {
+
+		if (authentication == null || !authentication.isAuthenticated()) {
+			return "redirect:/login";
+		}
+
+		if (authentication.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_USER"))) {
+			return "redirect:/dashboard";
+		}
+
+		List<UserDTO> users = userService.getAllUsers();
+		model.addAttribute("users", users);
+
+		return "admin-dashboard";
+	}
+
+	/**
+	 * Displays the tasks associated with a specific user for an admin, allowing for their deletion.
+	 *
+	 * @param username the username of the user whose tasks are to be displayed
+	 * @param model the Model object used to pass attributes to the view
+	 * @return the name of the view to render, which in this case is "admin-user-tasks"
+	 */
+	@GetMapping("/user-tasks/{username}")
+	public String showUserTasks(@PathVariable String username, Model model) {
 
 		User user = userService.getUserByUsername(username);
+		List<TaskDTO> tasks = taskService.getTasksByUserId(user.getId());
+		model.addAttribute("tasks", tasks);
+		model.addAttribute("username", username);
 
-		if (user == null) {
-			redirectAttributes.addFlashAttribute("message", "User not found.");
-			return ResponseEntity.status(HttpStatus.FOUND)
-					.location(URI.create("/admin-dashboard"))
-					.build();
-		}
-
-		if (userService.deleteUser(user.getId())) {
-			redirectAttributes.addFlashAttribute("message", "User deleted successfully.");
-		} else {
-			redirectAttributes.addFlashAttribute("message", "Failed to delete user.");
-		}
-
-		return ResponseEntity.status(HttpStatus.FOUND)
-				.location(URI.create("/admin-dashboard"))
-				.build();
+		return "admin-user-tasks";
 	}
 
-
 	/**
-	 * Creates a new user in the system based on the provided WebUserDTO details.
+	 * Handles the user information update request through a PATCH mapping.
 	 *
-	 * @param webUserDTO The data transfer object containing the details of the user to be created.
-	 * @return ResponseEntity containing the created UserDTO if successful, or a bad request status if the user could not be created.
+	 * This method validates the user-provided data, updates the user information if the data is valid,
+	 * and sets appropriate flash attributes to provide feedback to the user.
+	 *
+	 * @param webUserDTO the data transfer object containing updated user information
+	 * @param bindingResult the object holding the results of the validation and binding errors
+	 * @param redirectAttributes the object to add attributes for the redirect scenario
+	 * @return a string representing the view name to be rendered or the redirect target
 	 */
-	@PostMapping("/admin/create-user")
-	public ResponseEntity<UserDTO> createNewUser(@RequestBody WebUserDTO webUserDTO) {
-		UserDTO newUser = userService.registerUser(webUserDTO);
-
-		if (newUser == null) {
-			return ResponseEntity.badRequest().build();
-		}
-
-		return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
-	}
-
-
-
-
-	/**
-	 * Handles the creation of a new task for a user.
-	 *
-	 * This method handles the request to create a new task associated with a given username.
-	 * It validates the provided WebTaskDTO, checks for errors, and either creates the task
-	 * or returns the appropriate HTTP status based on the result of the operation.
-	 *
-	 * @param username the username of the user for whom the task is being created
-	 * @param webTaskDTO the data transfer object containing the details of the task to be created
-	 * @param bindingResult result of the validation of the WebTaskDTO
-	 * @param redirectAttributes attributes for a redirect scenario
-	 * @return ResponseEntity indicating the status of the operation
-	 */
-	@PostMapping("/admin/create-task/{username}")
-	public ResponseEntity<?> createTask(@PathVariable String username, @Valid @ModelAttribute WebTaskDTO webTaskDTO,
-										BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-
+	@PatchMapping("/update-user-info")
+	public String updateUserInfo(@Validated(OnUpdate.class) @ModelAttribute("webUserDTO")WebUserDTO webUserDTO,
+								 BindingResult bindingResult,
+								 RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+			return "update-user-info";
+		}
+		Optional<UserDTO> updatedUser = userService.updateUser(webUserDTO);
+
+		if (updatedUser.isEmpty()) {
+			redirectAttributes.addFlashAttribute("error", "Update of user has failed.");
+			return "redirect:/admin/dashboard";
+		}
+
+		redirectAttributes.addFlashAttribute("message", "User successfully updated.");
+		return "redirect:/admin/dashboard";
+	}
+
+
+	/**
+	 * Creates a new user task based on the provided WebTaskDTO and associates it with the specified user.
+	 *
+	 * This method handles the POST request to create a task for a user identified by their username.
+	 * It validates the input data and redirects accordingly based on the presence of validation errors.
+	 * The method also handles unexpected exceptions by redirecting and setting an appropriate error message.
+	 *
+	 * @param username the username of the user to whom the task will be assigned
+	 * @param webTaskDTO the Data Transfer Object containing the task details
+	 * @param bindingResult holds the result of the validation and binding of the webTaskDTO
+	 * @param redirectAttributes attributes for a redirect scenario to pass along flash attributes
+	 * @return a string representing the view name to be rendered or the redirect target
+	 */
+	@PostMapping("/create-user-task/{username}")
+	public String createUserTask(@PathVariable String username,
+								 @Valid @ModelAttribute WebTaskDTO webTaskDTO,
+								 BindingResult bindingResult,
+								 RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors()) {
+			redirectAttributes.addFlashAttribute("webTaskDTO", webTaskDTO);
+			redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.webTaskDTO", bindingResult);
+			return "redirect:/admin/create-user-task/" + username;
 		}
 
 		try {
 			taskService.createTask(webTaskDTO, username);
-			redirectAttributes.addFlashAttribute("message", "Task successfully created.");
-			return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/admin-user-tasks/" + username)).build();
+			redirectAttributes.addFlashAttribute("successMessage", "Task successfully created for " + username);
+			return "redirect:/admin/dashboard";
 		}
-
 		catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			redirectAttributes.addFlashAttribute("error", "An unexpected error occured: " + e.getMessage());
+			return "redirect:/admin/dashboard";
 		}
 	}
 
 
-	/**
-	 * Deletes a list of user tasks based on the provided task IDs.
-	 *
-	 * @param selectedItems - List of task IDs to be deleted.
-	 * @return ResponseEntity<String> - Returns a response indicating the outcome of the delete operation.
-	 */
-	@DeleteMapping("/admin/delete-user-tasks")
-	public ResponseEntity<String> deleteUserTasks(@RequestParam List<Integer> selectedItems, RedirectAttributes redirectAttributes) {
-
-		if (selectedItems == null || selectedItems.isEmpty()) {
-			redirectAttributes.addFlashAttribute("message", "Selected items list is empty.");
-			return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("/admin-dashboard")).build();
-		}
-
-		for (Integer id : selectedItems) {
-			taskService.deleteTask(id);
-		}
-		redirectAttributes.addFlashAttribute("message", "Task(s) successfully deleted.");
-		return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("/admin-dashboard")).build();
-
-
-	}
 
 
 }
