@@ -231,11 +231,12 @@ public class ViewController {
 	 * @return the name of the view to render, which in this case is "admin-user-tasks"
 	 */
 	@GetMapping("/admin-user-tasks/{username}")
-	public String showDeleteUserTasks(@PathVariable String username, Model model) {
+	public String showUserTasks(@PathVariable String username, Model model) {
 
 		User user = userService.getUserByUsername(username);
 		List<TaskDTO> tasks = taskService.getTasksByUserId(user.getId());
 		model.addAttribute("tasks", tasks);
+		model.addAttribute("username", username);
 
 		return "admin-user-tasks";
 	}
@@ -264,8 +265,15 @@ public class ViewController {
 		model.addAttribute("webUserDTO", webUserDTO);
 
 		return "update-user-info";
+	}
 
+	@GetMapping("/admin-create-user-task/{username}")
+	public String createUserTask(@PathVariable String username, Model model) {
 
+		model.addAttribute("webTaskDTO", new WebTaskDTO());
+		model.addAttribute("username", username);
+
+		return "admin-create-user-task";
 	}
 
 

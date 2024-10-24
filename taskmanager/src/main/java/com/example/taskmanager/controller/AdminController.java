@@ -102,16 +102,32 @@ public class AdminController {
 
 
 
+
+	/**
+	 * Handles the creation of a new task for a user.
+	 *
+	 * This method handles the request to create a new task associated with a given username.
+	 * It validates the provided WebTaskDTO, checks for errors, and either creates the task
+	 * or returns the appropriate HTTP status based on the result of the operation.
+	 *
+	 * @param username the username of the user for whom the task is being created
+	 * @param webTaskDTO the data transfer object containing the details of the task to be created
+	 * @param bindingResult result of the validation of the WebTaskDTO
+	 * @param redirectAttributes attributes for a redirect scenario
+	 * @return ResponseEntity indicating the status of the operation
+	 */
 	@PostMapping("/admin/create-task/{username}")
-	public ResponseEntity<TaskDTO> createTask(@PathVariable String username, @Valid @ModelAttribute WebTaskDTO webTaskDTO, BindingResult bindingResult) {
+	public ResponseEntity<?> createTask(@PathVariable String username, @Valid @ModelAttribute WebTaskDTO webTaskDTO,
+										BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
 		if (bindingResult.hasErrors()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 
 		try {
-			TaskDTO newTask = taskService.createTask(webTaskDTO, username);
-			return ResponseEntity.status(HttpStatus.CREATED).body(newTask);
+			taskService.createTask(webTaskDTO, username);
+			redirectAttributes.addFlashAttribute("message", "Task successfully created.");
+			return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/admin-user-tasks/" + username)).build();
 		}
 
 		catch (Exception e) {
@@ -127,17 +143,18 @@ public class AdminController {
 	 * @return ResponseEntity<String> - Returns a response indicating the outcome of the delete operation.
 	 */
 	@DeleteMapping("/admin/delete-user-tasks")
-	public ResponseEntity<String> deleteUserTasks(@RequestParam List<Integer> selectedItems) {
+	public ResponseEntity<String> deleteUserTasks(@RequestParam List<Integer> selectedItems, RedirectAttributes redirectAttributes) {
 
 		if (selectedItems == null || selectedItems.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No tasks selected to delete");
+			redirectAttributes.addFlashAttribute("message", "Selected items list is empty.");
+			return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("/admin-dashboard")).build();
 		}
 
 		for (Integer id : selectedItems) {
 			taskService.deleteTask(id);
 		}
-
-		return ResponseEntity.ok("Delete of tasks has been completed.");
+		redirectAttributes.addFlashAttribute("message", "Task(s) successfully deleted.");
+		return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("/admin-dashboard")).build();
 
 
 	}

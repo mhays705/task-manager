@@ -90,7 +90,7 @@ public class SecurityConfig {
 								.requestMatchers("/", "/register-new-user", "/login", "/logout", "/access-denied", "/api/register-user").permitAll()
 								.requestMatchers("/dashboard", "/create-task", "/delete-tasks", "/update-task-status", "/update-user-info").authenticated()
 								.requestMatchers("/api/**").hasAnyRole("USER", "ADMIN")
-								.requestMatchers("/admin-dashboard", "/api/admin/**").hasRole("ADMIN")
+								.requestMatchers("/admin-dashboard", "/admin-user-tasks", "/admin-create-user-task", "/api/admin/**").hasRole("ADMIN")
 								.anyRequest().authenticated()
 				)
 				.formLogin(form ->

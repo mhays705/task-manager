@@ -46,7 +46,7 @@ public class Task {
 	@Column(name = "start_date")
 	private LocalDate startDate;
 
-	@Future(message = "Due date must be n")
+	@Future(message = "Due date must be in the future")
 	@Column(name = "due_date")
 	private LocalDate dueDate;
 
