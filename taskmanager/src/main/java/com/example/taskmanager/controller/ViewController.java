@@ -1,6 +1,7 @@
 package com.example.taskmanager.controller;
 
 import com.example.taskmanager.dto.TaskDTO;
+import com.example.taskmanager.dto.UserDTO;
 import com.example.taskmanager.dto.WebTaskDTO;
 import com.example.taskmanager.dto.WebUserDTO;
 import com.example.taskmanager.entity.User;
@@ -206,14 +207,6 @@ public class ViewController {
 		return "update-user-info";
 	}
 
-	@GetMapping("/admin-create-user-task/{username}")
-	public String showCreateUserTask(@PathVariable String username, Model model) {
-
-		model.addAttribute("webTaskDTO", new WebTaskDTO());
-		model.addAttribute("username", username);
-
-		return "admin-create-user-task";
-	}
 
 
 }

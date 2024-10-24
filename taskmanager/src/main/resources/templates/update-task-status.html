@@ -72,7 +72,7 @@
             <hr><br><br>
 
             <!-- Form for updating task status -->
-            <form action="#" th:action="@{/api/task/update-status}" method="post" onsubmit="return validateForm()">
+            <form action="#" th:action="@{/task/update-status}" method="post" onsubmit="return validateForm()">
                 <input type="hidden" name="_method" value="PATCH">
                 <table class="table table-bordered table-striped">
                     <thead>

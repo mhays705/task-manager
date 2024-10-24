@@ -61,7 +61,7 @@
 
             <!-- Form to delete selected users tasks -->
 
-            <form th:if="${!tasks.isEmpty()}" action="#" th:action="@{/api/admin/delete-user-tasks}" method="post" onsubmit="return validateForm()">
+            <form th:if="${!tasks.isEmpty()}" action="#" th:action="@{/api/admin/delete-user-tasks/{username}(username=${username})}" method="post" onsubmit="return validateForm()">
                 <input type="hidden" name="_method" value="DELETE">
                 <table class="table table-bordered table-striped">
                     <thead>
@@ -88,8 +88,8 @@
             <div th:if="${tasks.isEmpty()}">
                 <p class="lead">No Tasks To Display!</p>
             </div>
-            <a class="btn btn-success btn-large w-100" th:href="@{/admin-create-user-task/{username}(username=${username})}">Create New Task</a>
-            <a class="btn btn-primary btn-large w-100" th:href="@{/admin-dashboard}">Return To Admin Dashboard</a>
+            <a class="btn btn-success btn-large w-100" th:href="@{/admin/create-user-task/{username}(username=${username})}">Create New Task</a>
+            <a class="btn btn-primary btn-large w-100" th:href="@{/admin/dashboard}">Return To Admin Dashboard</a>
    
         </div>
     </main>

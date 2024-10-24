@@ -95,6 +95,22 @@ public class AdminController {
 	}
 
 	/**
+	 * Displays the page for creating a user-specific task.
+	 *
+	 * @param username the username of the user for whom the task is to be created
+	 * @param model the Model object used for passing attributes to the view
+	 * @return the name of the view for creating a user task, which is "admin-create-user-task"
+	 */
+	@GetMapping("/create-user-task/{username}")
+	public String showCreateUserTask(@PathVariable String username, Model model) {
+
+		model.addAttribute("webTaskDTO", new WebTaskDTO());
+		model.addAttribute("username", username);
+
+		return "admin-create-user-task";
+	}
+
+	/**
 	 * Handles the user information update request through a PATCH mapping.
 	 *
 	 * This method validates the user-provided data, updates the user information if the data is valid,
@@ -155,6 +171,67 @@ public class AdminController {
 		}
 		catch (Exception e) {
 			redirectAttributes.addFlashAttribute("error", "An unexpected error occured: " + e.getMessage());
+			return "redirect:/admin/dashboard";
+		}
+	}
+
+
+	/**
+	 * Deletes the tasks specified by the list of task IDs.
+	 *
+	 * This method handles deletion of tasks for a user by accepting a list of task IDs and
+	 * deleting those tasks from the system. It adds appropriate flash messages to provide
+	 * feedback to the user about the success or failure of the operation.
+	 *
+	 * @param selectedItems the list of task IDs to be deleted
+	 * @param redirectAttributes attributes to be used in the redirect scenario to pass along flash attributes
+	 * @return a string representing the redirect target to the admin user tasks view
+	 */
+	@DeleteMapping("/delete-user-tasks")
+	public String deleteUserTasks(@RequestParam List<Integer> selectedItems,
+								  @PathVariable String username,
+								  RedirectAttributes redirectAttributes) {
+		if (selectedItems == null || selectedItems.isEmpty()) {
+			redirectAttributes.addFlashAttribute("error", "No tasks selected.");
+			return "redirect:/admin/user-tasks/" + username;
+		}
+
+		for (int id : selectedItems) {
+			taskService.deleteTask(id);
+		}
+
+		redirectAttributes.addFlashAttribute("successMessage", "Selected items successfully delete");
+		return "redirect:/admin/user-tasks/" + username;
+
+	}
+
+	/**
+	 * Deletes a user based on the provided username.
+	 *
+	 * This method handles HTTP DELETE requests to delete a user identified by the given username.
+	 * If the user is found, it attempts to delete the user and sets appropriate flash attributes
+	 * indicating success or failure. If the user is not found, it sets an error flash attribute.
+	 *
+	 * @param username the username of the user to be deleted
+	 * @param redirectAttributes attributes for the redirect scenario to pass along flash messages
+	 * @return a string representing the redirect target to the admin dashboard view
+	 */
+	@DeleteMapping("/delete-user/{username}")
+	public String adminDeleteUser(@PathVariable String username,
+								  RedirectAttributes redirectAttributes) {
+		User user = userService.getUserByUsername(username);
+
+		if (user == null) {
+			redirectAttributes.addFlashAttribute("error", "User not found.");
+			return "redirect:/admin/dashboard";
+		}
+		int id = user.getId();
+		try {
+			userService.deleteUser(id);
+			redirectAttributes.addFlashAttribute("successMessage", "User successfully deleted.");
+			return "redirect:/admin/dashboard";
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("error", "There was an error processing the deletion");
 			return "redirect:/admin/dashboard";
 		}
 	}

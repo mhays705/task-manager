@@ -40,7 +40,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
 		if (authentication.getAuthorities().stream()
 				.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
-			redirectUrl = "/admin-dashboard";
+			redirectUrl = "/admin/dashboard";
 		}
 		else {
 			redirectUrl = "/dashboard";

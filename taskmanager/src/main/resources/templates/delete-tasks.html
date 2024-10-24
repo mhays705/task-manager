@@ -63,7 +63,7 @@
             <h1>Task List</h1>
             <hr><br><br>
             <!-- Form to delete selected tasks -->
-            <form action="#" th:action="@{/api/task/delete-tasks}" method="post" onsubmit="return validateForm()">
+            <form action="#" th:action="@{/task/delete-tasks}" method="post" onsubmit="return validateForm()">
                 <input type="hidden" name="_method" value="DELETE">
                 <table class="table table-bordered table-striped">
                     <thead>

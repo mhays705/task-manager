@@ -87,10 +87,10 @@ public class SecurityConfig {
 		http.authorizeHttpRequests(configurer ->
 						configurer
 								.requestMatchers("/css/**", "/images/**").permitAll()
-								.requestMatchers("/", "/register-new-user", "/login", "/logout", "/access-denied", "/api/register-user").permitAll()
+								.requestMatchers("/", "/register-new-user", "/login", "/logout", "/access-denied", "/user/register-new-user").permitAll()
 								.requestMatchers("/dashboard", "/create-task", "/delete-tasks", "/update-task-status", "/update-user-info").authenticated()
-								.requestMatchers("/api/**").hasAnyRole("USER", "ADMIN")
-								.requestMatchers("/admin-dashboard", "/admin-user-tasks", "/admin-create-user-task", "/api/admin/**").hasRole("ADMIN")
+								.requestMatchers("/user/**").hasAnyRole("USER","ADMIN")
+								.requestMatchers("/admin/**").hasRole("ADMIN")
 								.anyRequest().authenticated()
 				)
 				.formLogin(form ->

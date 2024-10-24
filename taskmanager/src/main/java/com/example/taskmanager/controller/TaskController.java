@@ -73,7 +73,7 @@ public class TaskController {
 	 * @param redirectAttributes attributes for storing flash attributes to be used in a redirect scenario
 	 * @return the view name to be redirected to after processing the request
 	 */
-	@DeleteMapping("/delete")
+	@DeleteMapping("/delete-tasks")
 	public String deleteTasks(@RequestParam List<Integer> selectedItems,
 							  RedirectAttributes redirectAttributes) {
 

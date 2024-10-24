@@ -20,7 +20,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/admin-dashboard}">Admin</a>
+                        <a class="nav-link active" th:href="@{/admin/dashboard}">Admin</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
@@ -64,9 +64,9 @@
                         <td th:text="${user.email}"></td>
                         <td>
                             <!-- Button to view user's tasks -->
-                            <a class="btn btn-primary btn-sm" th:href="@{/admin-user-tasks/{username}(username=${user.username})}">Tasks</a>
+                            <a class="btn btn-primary btn-sm" th:href="@{/admin/user-tasks/{username}(username=${user.username})}">Tasks</a>
                             <!-- Form to delete the user -->
-                            <form th:action="@{/api/admin/delete-user/{username}(username=${user.username})}" method="post" style="display:inline;">
+                            <form th:action="@{/admin/delete-user/{username}(username=${user.username})}" method="post" style="display:inline;">
                                 <input type="hidden" name="_method" value="DELETE"/>
                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">
                                     Delete

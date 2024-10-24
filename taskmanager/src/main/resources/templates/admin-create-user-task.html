@@ -22,7 +22,7 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/admin-dashboard}">Admin</a>
+                        <a class="nav-link active" th:href="@{/admin/dashboard}">Admin</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
@@ -49,7 +49,7 @@
 
             <!-- Form to Create New Task-->
             <div class="container d-flex align-items-center justify-content-center">
-                <form class="p-4 bg-light rounded shadow border" action="#" th:action="@{/api/admin/create-task/{username}(username=${username})}" th:object="${webTaskDTO}" method="post">
+                <form class="p-4 bg-light rounded shadow border" action="#" th:action="@{/admin/create-user-task/{username}(username=${username})}" th:object="${webTaskDTO}" method="post">
                     
                     <!--- Error Messages-->
                     <div th:if="${bindingResult != null and bindingResult.hasErrors()}">
