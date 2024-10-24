@@ -1,67 +1,70 @@
 # UTracker - Task Manager Application
 
 ## Project Overview
-UTracker is a robust web-based task management application designed to help users organize their tasks effectively. Built with Spring Boot, Thymeleaf, and Bootstrap, UTracker provides a user-friendly interface for creating, updating, and managing tasks. This project demonstrates my ability to develop full-stack applications using modern web technologies.
+UTracker is a robust web-based task management application designed to help users organize their tasks effectively. Built with Spring Boot, Thymeleaf, and Bootstrap, UTracker provides a user-friendly interface for creating, updating, and managing tasks. This project showcases my ability to develop full-stack applications using modern web technologies.
 
-**Note**: UTracker is still a work in progress, and I plan to add more features and improvements in the future.
+**Note**: UTracker is a work in progress, and I plan to add more features and improvements in the future.
 
 ## Key Features
-- **User Registration & Authentication**: Secure user registration and login functionality using Spring Security and BCrypt password hashing.
+- **User Registration & Authentication**: 
+  - Secure user registration and login functionality using Spring Security with BCrypt password hashing.
 - **Task Management**: 
-  - Create new tasks with details such as name, start date, due date, and status.
+  - Create tasks with details such as name, start date, due date, and status.
   - Update existing tasks or mark them as complete.
-  - Delete tasks when no longer needed.
+  - Delete tasks that are no longer needed.
 - **Role-Based Access Control**: 
   - User roles (User, Admin) ensure appropriate access to features and data.
-  - Admins can manage all users and their tasks, while regular users can manage their own tasks.
-- **Responsive Design**: Mobile-friendly UI built with Bootstrap for a seamless user experience across devices.
-- **Data Validation**: Implemented input validation to ensure data integrity and improve user experience.
+  - Admins can manage all users and their tasks, while regular users can only manage their own tasks.
+- **Responsive Design**: 
+  - Mobile-friendly UI built with Bootstrap for a seamless user experience across devices.
+- **Data Validation**: 
+  - Input validation to ensure data integrity and enhance user experience.
 
 ## Technologies Used
 
-### IDEs Used:
-- **IntelliJ**: Used for the Java development due to phenomenal utility and support for Java.
-- **VS Code**: Used for HTML development due to better support and utility for HTML files.
+### IDEs
+- **IntelliJ**: For Java development, leveraging its excellent utility and support for Spring Boot.
+- **VS Code**: For HTML and CSS development, providing better support for web technologies.
 
-### Backend:
-- **Spring Boot**: Provides a simplified framework for creating production-ready, enterprise-level applications.
-- **Spring Data JPA**: Handles ORM and simplifies database access with repositories and entity management.
-- **Spring Security**: Ensures authentication and role-based access control.
-- **Spring Validation**: Handles data validation.
-- **Lombok**: Reduces boilerplate code with annotations like `@Getter`, `@Setter`, `@NoArgsConstructor`, and `@AllArgsConstructor` to manage data model classes more efficiently.
+### Backend
+- **Spring Boot**: Simplifies the creation of production-ready applications with minimal configuration.
+- **Spring Data JPA**: Manages ORM and database access through repositories.
+- **Spring Security**: Ensures secure authentication and role-based access control.
+- **Spring Validation**: Provides robust data validation mechanisms.
+- **Lombok**: Reduces boilerplate code in data model classes with annotations like `@Getter`, `@Setter`, and `@NoArgsConstructor`.
 - **MySQL**: Primary database for data persistence.
-- **Hibernate**: ORM used for mapping.
+- **Hibernate**: Facilitates ORM mapping for database interactions.
 
-### Frontend:
-- **Thymeleaf**: Template engine for rendering dynamic content in HTML views.
-- **Bootstrap**: Provides responsive design elements for a modern and mobile-friendly UI.
-- **Note**: HTML and CSS is probably not the greatest I learned as I went and am still learning. Project is more focused on the backend.
+### Frontend
+- **Thymeleaf**: Template engine for rendering dynamic HTML content.
+- **Bootstrap**: Utilizes responsive design elements for a modern, mobile-friendly UI.
+- **Note**: HTML and CSS are areas I’m actively learning, so design may evolve over time.
 
-### Security:
-- **BCrypt**: Used for password hashing to enhance security.
-- **Spring Security**: Configured for user authentication and authorization.
+### Security
+- **BCrypt**: Utilized for secure password hashing.
+- **Spring Security**: Configured to manage user authentication and authorization effectively.
 
 ## Project Structure
-- **Controllers**: Manage HTTP requests and responses, directing traffic between the UI and services.
-- **Services**: Contain the core business logic, ensuring the application functions as intended.
-- **Repositories**: Interface with the database to handle data operations using Spring Data JPA.
-- **Entities**: Define the application's data models (e.g., `User`, `Task`, `Role`).
-- **DTOs**: Data Transfer Objects to ensure secure and efficient data transfer between layers and avoid exposing sensitive information.
+- **Controllers**: Handle HTTP requests and responses, routing between the UI and services.
+- **Services**: Encapsulate core business logic to ensure the application operates as intended.
+- **Repositories**: Interface with the database for data operations using Spring Data JPA.
+- **Entities**: Define application data models (e.g., `User`, `Task`, `Role`).
+- **DTOs**: Data Transfer Objects that secure and optimize data transfer between application layers.
 
 ## Layout Note
-The page layout and navigation bar were initially provided by a Bootstrap template, which streamlined the design process and facilitated the creation of a responsive user interface. Several customizations have been made to enhance the layout, including modifications to the color scheme, spacing, and component styles, ensuring the design aligns with the specific requirements of this application.
+The initial page layout and navigation bar were created using a Bootstrap template, allowing for a responsive design. Customizations have been made to the color scheme, spacing, and component styles to meet the application’s specific requirements.
 
 ## Getting Started
-To explore the features of UTracker, visit the registration page to create an account and log in to your dashboard. Here, you can manage your tasks and take advantage of the application's features.
+To explore UTracker, visit the registration page to create an account and log in to your dashboard. From there, you can manage your tasks and utilize the application's features.
 
 ## Future Enhancements
 - Implement user notifications for task reminders.
-- Integrate a calendar view for better task visualization.
+- Integrate a calendar view for enhanced task visualization.
 - Add functionality for recurring tasks.
-- Add JavaScript features when I learn it.
-- -Add sorting and pagination for tasks and users.
-- And more when thought of.
+- Incorporate JavaScript features as I learn more.
+- Implement sorting and pagination for tasks and users.
+- Additional features as ideas arise.
 
 ## Acknowledgements
-- Thanks to the open-source community for the libraries and tools that facilitated this project.
+- Thanks to the open-source community for the libraries and tools that have facilitated this project.
 - Inspired by the necessity for effective personal and team task management.
