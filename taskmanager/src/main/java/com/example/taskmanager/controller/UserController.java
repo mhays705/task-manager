@@ -50,14 +50,20 @@ public class UserController {
 							   RedirectAttributes redirectAttributes) {
 
 		if (bindingResult.hasErrors()) {
-			return "register-user";
+			redirectAttributes.addFlashAttribute("webUserDTo" ,webUserDTO);
+			redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.webUserDTO", bindingResult);
+			return "user-registration-form";
 		}
 
-		userService.registerUser(webUserDTO);
-
-		redirectAttributes.addFlashAttribute("successMessage", "User registered successfully.");
-
-		return "redirect:/";
+		try {
+			userService.registerUser(webUserDTO);
+			redirectAttributes.addFlashAttribute("successMessage", "User registered successfully.");
+			return "redirect:/login";
+		}
+		catch (Exception e) {
+			redirectAttributes.addFlashAttribute("error", "Registration Failed " + e.getMessage());
+			return "register-new-user";
+		}
 
 	}
 

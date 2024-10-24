@@ -1,11 +1,9 @@
 package com.example.taskmanager.controller;
 
 import com.example.taskmanager.dto.TaskDTO;
-import com.example.taskmanager.dto.UserDTO;
 import com.example.taskmanager.dto.WebTaskDTO;
 import com.example.taskmanager.dto.WebUserDTO;
 import com.example.taskmanager.entity.User;
-import com.example.taskmanager.mapper.UserMapper;
 import com.example.taskmanager.service.TaskService;
 import com.example.taskmanager.service.UserService;
 import org.springframework.security.core.Authentication;
@@ -72,8 +70,7 @@ public class ViewController {
 	}
 
 	/**
-	 * Displays the user registration form.
-	 *
+	 * Displays the user registration form.*
 	 * This method handles GET requests to "/register-new-user". It adds an empty WebUserDTO
 	 * object to the model to be used by the registration form.
 	 *
