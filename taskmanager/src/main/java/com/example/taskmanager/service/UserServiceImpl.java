@@ -5,11 +5,14 @@ import com.example.taskmanager.dto.WebUserDTO;
 import com.example.taskmanager.entity.User;
 import com.example.taskmanager.mapper.UserMapper;
 import com.example.taskmanager.repository.UserRepository;
+import com.example.taskmanager.validation.OnCreate;
+import com.example.taskmanager.validation.OnUpdate;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +56,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	@Transactional
+	@Validated(OnCreate.class)
 	public UserDTO registerUser(WebUserDTO webUserDTO) {
 
 		if (userRepository.existsByEmail(webUserDTO.getEmail()) || userRepository.existsByUsername(webUserDTO.getUsername())) {
@@ -123,6 +127,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	@Transactional
+	@Validated(OnUpdate.class)
 	public Optional<UserDTO> updateUser(WebUserDTO webUserDTO) {
 	User user = userRepository.findByUsername(webUserDTO.getUsername());
 	if (user == null) {

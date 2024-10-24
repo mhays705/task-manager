@@ -51,10 +51,8 @@
             <div class="container d-flex align-items-center justify-content-center">
                 <form class="p-4 bg-light rounded shadow border" action="#" th:action="@{/admin/create-user-task/{username}(username=${username})}" th:object="${webTaskDTO}" method="post">
                     
-                    <!--- Error Messages-->
-                    <div th:if="${bindingResult != null and bindingResult.hasErrors()}">
-                        <p th:each="error : ${bindingResult.allErrors}" th:text="${error.defaultMessage}"></p>
-                    </div>
+
+                    
 
                     <div class="row mb-3">
                         <div class="col">
@@ -62,6 +60,7 @@
                     </div>
                     <div class="col">
                         <input type="text" class="form-control" name="taskName" id="taskName" th:field="*{taskName}">
+                        <p class="text-danger" th:if="${#fields.hasErrors('taskName')}" th:errors="*{taskName}"></p>
                     </div>
                     </div>
                     
@@ -71,6 +70,7 @@
                         </div>
                         <div class="col">
                             <input type="date" class="form-control" name="startDate" id="startDate" th:field="*{startDate}">
+                            <p class="text-danger" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></p>
                         </div>
                     </div>
 
@@ -80,6 +80,7 @@
                         </div>
                         <div class="col">
                             <input type="date" class="form-control" name="dueDate" id="dueDate" th:field="*{dueDate}">
+                            <p class="text-danger" th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}"></p>
                         </div>
                     </div>
 
@@ -88,7 +89,7 @@
                     </div>
 
                     <div class="row mb-3">
-                        <a class="btn btn-primary btn-large w-100" th:href="@{/admin-dashboard}">Return to Admin Dashboard</a>
+                        <a class="btn btn-primary btn-large w-100" th:href="@{/admin/dashboard}">Return to Admin Dashboard</a>
                     </div>
 
                 </form>

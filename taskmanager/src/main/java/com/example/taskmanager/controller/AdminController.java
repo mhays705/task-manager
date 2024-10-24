@@ -122,7 +122,7 @@ public class AdminController {
 	 * @return a string representing the view name to be rendered or the redirect target
 	 */
 	@PatchMapping("/update-user-info")
-	public String updateUserInfo(@Validated(OnUpdate.class) @ModelAttribute("webUserDTO")WebUserDTO webUserDTO,
+	public String updateUserInfo(@Valid @ModelAttribute("webUserDTO")WebUserDTO webUserDTO,
 								 BindingResult bindingResult,
 								 RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
@@ -155,15 +155,14 @@ public class AdminController {
 	 */
 	@PostMapping("/create-user-task/{username}")
 	public String createUserTask(@PathVariable String username,
-								 @Valid @ModelAttribute WebTaskDTO webTaskDTO,
+								 @Valid @ModelAttribute("webTaskDTO") WebTaskDTO webTaskDTO,
 								 BindingResult bindingResult,
-								 RedirectAttributes redirectAttributes) {
+								 RedirectAttributes redirectAttributes,
+								 Model model) {
 		if (bindingResult.hasErrors()) {
-			redirectAttributes.addFlashAttribute("webTaskDTO", webTaskDTO);
-			redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.webTaskDTO", bindingResult);
-			return "redirect:/admin/create-user-task/" + username;
+			model.addAttribute("username", username);
+			return "admin-create-user-task";
 		}
-
 		try {
 			taskService.createTask(webTaskDTO, username);
 			redirectAttributes.addFlashAttribute("successMessage", "Task successfully created for " + username);
