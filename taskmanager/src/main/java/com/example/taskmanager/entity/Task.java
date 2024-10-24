@@ -36,17 +36,14 @@ public class Task {
 	@Column(name = "id")
 	private int id;
 
-	@NotBlank(message = "is required")
-	@Size(max = 255, message = "Name must be 255 characters or less")
+
 	@Column(name = "task_name")
 	private String taskName;
 
-	@NotNull(message = "Start date is required")
-	@PastOrPresent(message = "Start date must be current day or earlier")
 	@Column(name = "start_date")
 	private LocalDate startDate;
 
-	@Future(message = "Due date must be in the future")
+
 	@Column(name = "due_date")
 	private LocalDate dueDate;
 

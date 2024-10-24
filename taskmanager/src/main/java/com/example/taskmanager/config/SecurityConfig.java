@@ -98,11 +98,12 @@ public class SecurityConfig {
 								.loginPage("/login")
 								.loginProcessingUrl("/authenticateUser")
 								.successHandler(customAuthenticationSuccessHandler)
+								.failureUrl("/login?error=true")
 								.permitAll())
 				.logout(logout ->
 						logout
 								.logoutUrl("/logout")
-								.logoutSuccessUrl("/")
+								.logoutSuccessUrl("/login?logout=true")
 								.invalidateHttpSession(true)
 								.deleteCookies("JSESSIONID")
 								.permitAll())

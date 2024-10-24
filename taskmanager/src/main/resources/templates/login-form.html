@@ -58,6 +58,14 @@
             <!-- Form for user login -->
             <div class="container d-flex align-items-center justify-content-center">
                 <form class="p-4 bg-light rounded shadow border" action="#" th:action="@{/authenticateUser}" method="post">
+
+                    <div th:if="${param.error}" class="alert alert-danger">
+                        Invalid username or password
+                    </div>
+                    <div th:if="${param.logout}" class="alert alert-success">
+                        You have been logged out
+                    </div>
+
                     <div class="row mb-3">
                         <div class="col">
                             <label for="username" class="form-label">Username:</label>
