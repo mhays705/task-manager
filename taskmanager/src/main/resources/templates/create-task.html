@@ -61,6 +61,7 @@
                     </div>
                     <div class="col">
                         <input type="text" class="form-control" name="taskName" id="taskName" th:field="*{taskName}">
+                        <p class="text-danger" th:if="${#fields.hasErrors('taskName')}" th:errors="*{taskName}"></p>
                     </div>
                     </div>
                     
@@ -70,6 +71,7 @@
                         </div>
                         <div class="col">
                             <input type="date" class="form-control" name="startDate" id="startDate" th:field="*{startDate}">
+                            <p class="text-danger" th:if="${fields.hasErrors('startDate')}" th:errors="*{startDate}"></p>
                         </div>
                     </div>
 
@@ -79,6 +81,7 @@
                         </div>
                         <div class="col">
                             <input type="date" class="form-control" name="dueDate" id="dueDate" th:field="*{dueDate}">
+                            <p class="text-danger" th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}"></p>
                         </div>
                     </div>
 
