@@ -8,6 +8,7 @@ import com.example.taskmanager.dto.WebUserDTO;
 import com.example.taskmanager.entity.User;
 import com.example.taskmanager.service.TaskService;
 import com.example.taskmanager.service.UserService;
+import com.example.taskmanager.validation.OnCreate;
 import com.example.taskmanager.validation.OnUpdate;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,6 +109,21 @@ public class AdminController {
 		model.addAttribute("username", username);
 
 		return "admin-create-user-task";
+	}
+
+	/**
+	 * Displays the page for creating a new user.
+	 *
+	 * This method handles the GET request to show the user creation form for the admin.
+	 * It initializes a new instance of the WebUserDTO and adds it to the model to be used in the view.
+	 *
+	 * @param model the model object to add attributes to be used in the view
+	 * @return a string indicating the name of the view to be rendered, which is "admin-create-new-user"
+	 */
+	@GetMapping("/create-new-user")
+	public String createNewUser(Model model) {
+		model.addAttribute("webUserDTO", new WebUserDTO());
+		return "admin-create-user";
 	}
 
 
@@ -234,6 +250,26 @@ public class AdminController {
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("error", "There was an error processing the deletion");
 			return "redirect:/admin/dashboard";
+		}
+	}
+
+	@PostMapping("/create-new-user")
+	public String createNewUser(@Validated(OnCreate.class) @ModelAttribute("webUserDTO") WebUserDTO webUserDTO,
+								BindingResult bindingResult,
+								RedirectAttributes redirectAttributes) {
+
+		if (!webUserDTO.getPassword().equals(webUserDTO.getPasswordConfirmation())){
+			bindingResult.rejectValue("passwordConfirmation", null, "Passwords do not match.");
+		}
+
+		try {
+			userService.registerUser(webUserDTO);
+			redirectAttributes.addFlashAttribute("successMessage", "User was successfully created.");
+			return "redirect:/admin/dashboard";
+		}
+		catch (Exception e) {
+			redirectAttributes.addFlashAttribute("error", "User Creation Failed " + e.getMessage());
+			return "admin-create-user";
 		}
 	}
 

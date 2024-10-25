@@ -52,10 +52,11 @@ public class UserController {
 	public String registerUser(@Validated(OnCreate.class) @ModelAttribute("webUserDTO") WebUserDTO webUserDTO,
 							   BindingResult bindingResult,
 							   RedirectAttributes redirectAttributes) {
+		if (!webUserDTO.getPassword().equals(webUserDTO.getPasswordConfirmation())) {
+			bindingResult.rejectValue("passwordConfirmation", null, "Passwords do not match.");
+		}
 
 		if (bindingResult.hasErrors()) {
-			redirectAttributes.addFlashAttribute("webUserDTo" ,webUserDTO);
-			redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.webUserDTO", bindingResult);
 			return "user-registration-form";
 		}
 

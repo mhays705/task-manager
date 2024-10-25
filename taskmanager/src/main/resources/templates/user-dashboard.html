@@ -52,6 +52,9 @@
     <main role="main" class="container flex-grow-1">
         <div th:if="${tasks.isEmpty()}" class="starter-template"> 
             <h3>No Tasks To Display! <br> Create New Task!</h3>
+            <hr>
+            <br>
+            <a class="btrn btn btn-success btn-large w-100" th:href="@{/create-task}">Create New Task</a>
         </div>
         <div th:if="${!tasks.isEmpty()}" class="starter-template">
             <h1>Pending Tasks</h1>

@@ -48,9 +48,8 @@ public class WebUserDTO {
 	@Size(groups = OnCreate.class,min = 5, message = "Password must be at least 5 characters ")
 	private String password;
 
-//	@NotBlank(message = "is required")
-//	@Size(min = 5, max = 40, message = "Password confirmation must match password")
-//	private String passwordConfirmation;
+	@NotBlank(groups = OnCreate.class, message = "Password confirmation is required")
+	private String passwordConfirmation;
 
 
 

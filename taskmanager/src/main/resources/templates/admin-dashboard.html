@@ -42,9 +42,10 @@
             <br><hr><br>
 
             <!-- Flash that shows status of action-->
-            <div th:if="${message != null}" class="alert alert-info" role="alert">
-                <p th:text="${message}"></p>
-            </div>
+        
+            <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
 
             <table class="table table-bordered table-striped">
                 <thead>
@@ -76,6 +77,7 @@
                     </tr>
                 </tbody>
             </table>
+            <a class="btn btn-success btn-large w-100" th:href="@{/admin/create-new-user}">Create New User</a>
         </div>
     </main>
 
