@@ -65,6 +65,7 @@
                     </div>
                     <div class="col">
                         <input type="text" class="form-control" name="username" id="username" th:field="*{username}">
+                        <p class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
                     </div>
                 </div>
 
@@ -74,6 +75,7 @@
                     </div>
                     <div class="col">
                         <input type="password" class="form-control" name="password" id="password" th:field="*{password}">
+                        <p class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                     </div>
                 </div>
 
@@ -83,6 +85,7 @@
                     </div>
                     <div class="col">
                         <input type="text" class="form-control" name="firstName" id="firstName" th:field="*{firstName}">
+                        <p class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
                     </div>
                 </div>
 
@@ -92,6 +95,7 @@
                     </div>
                     <div class="col">
                         <input type="text" class="form-control" name="lastName" id="lastName" th:field="*{lastName}">
+                        <p class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
                     </div>
                 </div>
 
@@ -101,6 +105,7 @@
                     </div>
                     <div class="col">
                         <input type="email" class="form-control"  name="email" id="email" th:field="*{email}">
+                        <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
                     </div>
                 </div>
 

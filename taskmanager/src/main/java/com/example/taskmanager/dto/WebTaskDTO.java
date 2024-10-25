@@ -25,7 +25,7 @@ public class WebTaskDTO {
 
 	private int id;
 
-	@NotBlank(message = "Task is required")
+	@NotBlank(message = "Task name is required")
 	@Size(max = 255, message = "Name must be 255 characters or less")
 	private String taskName;
 

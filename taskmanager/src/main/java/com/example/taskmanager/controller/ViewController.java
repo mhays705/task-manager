@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
+
 /**
- * The ViewController class manages the HTTP request-response workflow for
- * various pages of the application including user registration, login, task management,
- * and admin dashboard.
+ * Controller class to handle various view-related requests in the application.
+ *
+ * This class handles mappings for different user interfaces and integrates with
+ * the TaskService and UserService to perform necessary operations related to tasks
+ * and user management.
  */
 @Controller
 public class ViewController {

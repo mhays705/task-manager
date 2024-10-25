@@ -12,13 +12,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 /**
- * Represents a Data Transfer Object (DTO) for web user information.
+ * Data Transfer Object (DTO) for capturing web user information.
  *
- * This class is used to capture and validate user data during web interactions,
- * typically during registration or updating user details. It includes various
- * validation annotations to ensure the integrity and correctness of the data
- * provided by the user.
+ * This class is used for transferring user data between web forms and the backend.
+ * It includes validation annotations to enforce mandatory fields and constraints
+ * on the length and format of the input data.
  */
 @Data
 @NoArgsConstructor
@@ -28,24 +28,24 @@ public class WebUserDTO {
 
 
 	@NotBlank(groups = {OnCreate.class, OnUpdate.class}, message = "Username is required")
-	@Size(min = 2, max = 45, message = "Username must be 5 - 45 characters")
+	@Size(groups = {OnCreate.class, OnUpdate.class}, min = 5, max = 45, message = "Username must be 5 - 45 characters")
 	private String username;
 
 	@NotBlank(groups = {OnCreate.class, OnUpdate.class}, message = "First name is required")
-	@Size(min = 1, max = 45, message = "First name must be 1 - 45 characters")
+	@Size(groups = {OnCreate.class, OnUpdate.class}, min = 1, max = 45, message = "First name must be 1 - 45 characters")
 	private String firstName;
 
 	@NotBlank(groups = {OnCreate.class, OnUpdate.class}, message = "Last name is required")
-	@Size(min = 1, max = 45, message = "Last name must be 1 - 45 characters")
+	@Size(groups = {OnCreate.class, OnUpdate.class}, min = 1, max = 45, message = "Last name must be 1 - 45 characters")
 	private String lastName;
 
 	@NotBlank(groups = {OnCreate.class, OnUpdate.class}, message = "Email is required")
-	@Email(message = "Enter valid email address")
-	@Size(max = 255, message = "Must be less than 255 characters")
+	@Email(groups = {OnCreate.class, OnUpdate.class}, message = "Enter valid email address")
+	@Size(groups = {OnCreate.class, OnUpdate.class}, max = 255, message = "Must be less than 255 characters")
 	private String email;
 
 	@NotBlank(groups = OnCreate.class, message = "Password is required")
-	@Size(min = 5, message = "password must be at least 5 characters ")
+	@Size(groups = OnCreate.class,min = 5, message = "Password must be at least 5 characters ")
 	private String password;
 
 //	@NotBlank(message = "is required")
