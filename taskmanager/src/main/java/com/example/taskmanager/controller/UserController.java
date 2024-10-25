@@ -40,7 +40,7 @@ public class UserController {
 	/**
 	 * Registers a new user based on the provided WebUserDTO.
 	 *
-	 * This method validates the incoming user data, registers the user 
+	 * This method validates the incoming user data, registers the user
 	 * if valid, and redirects appropriately with success or error messages.
 	 *
 	 * @param webUserDTO the DTO containing web user information to be registered
