@@ -30,15 +30,24 @@
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" th:href="@{/create-task}">Create New Task</a></li>
                             <li><a class="dropdown-item" th:href="@{/delete-tasks}">Delete Task</a></li>
-                            <li><a class="dropdown-item" th:href="@{/update-user-info}">Update Account Info</a></li>
                         </ul>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown pe-0">
+                        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Account
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" th:href="@{/update-user-info}">Update Account Info</a></li>
+                            <li><a class="dropdown-item" th:href="@{/update-password}">Update Password</a></li>
+                        </ul>
+                    </li>
                     <!-- Logout form -->
                     <li class="nav-item">
                         <form action="#" th:action="@{/logout}" method="post" style="display:inline;">
-                            <button type="submit" class="nav-link" style="background: transparent; border: none; color: #ffffff; padding: 0;">
+                            <button type="submit" class="nav-link text-white bg-transparent border-0" style="text-decoration: none;">
                                 Logout
                             </button>
                         </form>

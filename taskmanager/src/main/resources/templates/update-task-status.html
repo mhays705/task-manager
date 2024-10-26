@@ -41,17 +41,14 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" th:href="@{/create-task}">Create New Task</a></li>
-                            <li><a class="dropdown-item" th:href="@{/delete-tasks}">Delete Task</a></li>
-                            <li><a class="dropdown-item" th:href="@{/update-user-info}">Update Account Info</a></li>
-                        </ul>
+                            <li><a class="dropdown-item" th:href="@{/delete-tasks}">Delete Task</a></li>                        </ul>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <!-- Logout form displayed when user is authenticated -->
                     <li class="nav-item" th:if="${#authentication != null && #authentication.authenticated}">
                         <form action="#" th:action="@{/logout}" method="post" style="display:inline;">
-                            <button type="submit" class="nav-link" 
-                                    style="background: transparent; border: none; color: #ffffff; padding: 0;">
+                            <button type="submit" class="nav-link text-white bg-transparent border-0">
                                 Logout
                             </button>
                         </form>
@@ -65,6 +62,15 @@
     <main role="main" class="container flex-grow-1">
         <div th:if="${tasks.isEmpty()}" class="starter-template">
             <h3>No Tasks To Display!</h3>
+
+            <br><hr><br>
+
+            <div class="mb-3">
+                <a class="btn btn-success btn-large w-100" th:href="@{/create-task}">Create New Task</a>
+            </div>
+            <div>
+                <a class="btn btn-primary btn-large w-100" th:href="@{/dashboard}">Return to Dashboard</a>
+            </div>
         </div>
 
         <div th:if="${!tasks.isEmpty()}" class="starter-template">
@@ -95,16 +101,15 @@
                     </tbody>
                 </table>
 
-                <div class="d-grid">
+                <div class="d-grid mb-3">
                     <button type="submit" class="btn btn-success btn-large w-100">Update Tasks</button>
+                </div>
+                <div class="d-grid mb-3">
+                    <a class="btn btn-primary btn-large w-100" th:href="@{/dashboard}">Return to Dashboard<a>
                 </div>
             </form>
         </div>
         
-        <!-- Button to return to the dashboard -->
-        <div class="d-grid">
-            <a class="btn btn-primary btn-large w-100" th:href="@{/dashboard}">Return to Dashboard<a>
-        </div>
     </main>
 
     <!-- Footer -->
