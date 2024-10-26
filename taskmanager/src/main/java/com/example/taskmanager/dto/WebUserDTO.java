@@ -2,6 +2,7 @@ package com.example.taskmanager.dto;
 
 
 
+import com.example.taskmanager.entity.Role;
 import com.example.taskmanager.validation.OnCreate;
 import com.example.taskmanager.validation.OnUpdate;
 import jakarta.validation.constraints.Email;
@@ -11,6 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 
 /**
@@ -52,6 +55,7 @@ public class WebUserDTO {
 	private String passwordConfirmation;
 
 
+	private Set<Role> roles;
 
 
 }

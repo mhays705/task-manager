@@ -63,7 +63,9 @@
                         <td th:text="${user.firstName}"></td>
                         <td th:text="${user.lastName}"></td>
                         <td th:text="${user.email}"></td>
-                        <td>
+                        <td class="w-25">
+                            <!-- Button to update user info -->
+                             <a class="btn btn-success btn-sm" th:href="@{/admin/update-user-info/{username}(username=${user.username})}">Update Info</a>
                             <!-- Button to view user's tasks -->
                             <a class="btn btn-primary btn-sm" th:href="@{/admin/user-tasks/{username}(username=${user.username})}">Tasks</a>
                             <!-- Form to delete the user -->

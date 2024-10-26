@@ -35,4 +35,14 @@ public class Role {
 
 	@Column(name = "name")
 	private String name;
+
+
+	public String getDisplayName() {
+		String displayName = name.substring(5);
+		displayName = displayName.toLowerCase();
+		return Character.toUpperCase(displayName.charAt(0)) + displayName.substring(1);
+	}
+
 }
+
+

@@ -5,7 +5,9 @@ import com.example.taskmanager.dto.TaskDTO;
 import com.example.taskmanager.dto.UserDTO;
 import com.example.taskmanager.dto.WebTaskDTO;
 import com.example.taskmanager.dto.WebUserDTO;
+import com.example.taskmanager.entity.Role;
 import com.example.taskmanager.entity.User;
+import com.example.taskmanager.service.RoleService;
 import com.example.taskmanager.service.TaskService;
 import com.example.taskmanager.service.UserService;
 import com.example.taskmanager.validation.OnCreate;
@@ -30,21 +32,23 @@ public class AdminController {
 
 	private final UserService userService;
 	private final TaskService taskService;
+	private final RoleService roleService;
+
 
 	/**
-	 * Creates an instance of AdminController.
+	 * Constructs an AdminController with the specified services.
 	 *
-	 * This constructor initializes the AdminController with the provided UserService and TaskService
-	 * to manage users and tasks, respectively.
-	 *
-	 * @param userService the service to manage user-related operations
-	 * @param taskService the service to manage task-related operations
+	 * @param userService the service for user operations
+	 * @param taskService the service for task operations
+	 * @param roleService the service for role operations
 	 */
 	@Autowired
 	public AdminController(UserService userService,
-						   TaskService taskService) {
+						   TaskService taskService,
+						   RoleService roleService) {
 		this.userService = userService;
-		this.taskService =taskService;
+		this.taskService = taskService;
+		this.roleService = roleService;
 	}
 
 
@@ -126,6 +130,25 @@ public class AdminController {
 		return "admin-create-user";
 	}
 
+	@GetMapping("/update-user-info/{username}")
+	public String updateUserInfo(@PathVariable("username") String username,
+								 Model model) {
+		User user = userService.getUserByUsername(username);
+		WebUserDTO webUserDTO = WebUserDTO.builder()
+				.username(user.getUsername())
+				.firstName(user.getFirstName())
+				.lastName(user.getLastName())
+				.email(user.getEmail())
+				.roles(user.getRoles())
+				.build();
+		model.addAttribute("webUserDTO", webUserDTO);
+		List<Role> roles = roleService.findAll();
+		model.addAttribute("roles", roles);
+
+		return "admin-update-user-info";
+	}
+
+
 
 	/**
 	 * Updates the user information.
@@ -144,17 +167,21 @@ public class AdminController {
 								 BindingResult bindingResult,
 								 RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
-			return "update-user-info";
+			return "admin-update-user-info";
 		}
-		Optional<UserDTO> updatedUser = userService.updateUser(webUserDTO);
 
-		if (updatedUser.isEmpty()) {
+		try {
+			userService.updateUser(webUserDTO);
+			redirectAttributes.addFlashAttribute("successMessage", "User successfully updated.");
+			System.out.println("should show message");
+			return "redirect:/admin/dashboard";
+		}
+
+		catch (Exception e) {
 			redirectAttributes.addFlashAttribute("error", "Update of user has failed.");
 			return "redirect:/admin/dashboard";
 		}
 
-		redirectAttributes.addFlashAttribute("message", "User successfully updated.");
-		return "redirect:/admin/dashboard";
 	}
 
 

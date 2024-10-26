@@ -2,6 +2,7 @@ package com.example.taskmanager.service;
 
 import com.example.taskmanager.dto.UserDTO;
 import com.example.taskmanager.dto.WebUserDTO;
+import com.example.taskmanager.entity.Role;
 import com.example.taskmanager.entity.User;
 import com.example.taskmanager.mapper.UserMapper;
 import com.example.taskmanager.repository.UserRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -145,12 +147,16 @@ public class UserServiceImpl implements UserService {
 
 
 
+
 	/**
-	 * Updates the fields of an existing User entity based on the non-null values from a WebUserDTO.
+	 * Updates the fields of an existing user entity based on the provided WebUserDTO.
 	 *
-	 * @param existingUser The User entity to update.
-	 * @param webUserDTO The WebUserDTO containing updated field values. Non-null and unequal values
-	 * in this DTO will be used to update the fields of the existing user.
+	 * This method checks each field in the WebUserDTO and updates the corresponding
+	 * field in the existing user entity if it is different. It also updates the roles
+	 * if there are any changes.
+	 *
+	 * @param existingUser the existing user entity to be updated
+	 * @param webUserDTO the data transfer object containing the updated user information
 	 */
 	@Transactional
 	public void updateFields(User existingUser, WebUserDTO webUserDTO) {
@@ -165,6 +171,15 @@ public class UserServiceImpl implements UserService {
 		}
 		if (webUserDTO.getEmail() != null && !webUserDTO.getEmail().equals(existingUser.getEmail())) {
 			existingUser.setEmail(webUserDTO.getEmail());
+		}
+		if (webUserDTO.getRoles() != null) {
+
+			Set<Role> existingRoles = new HashSet<>(existingUser.getRoles());
+			Set<Role> newRoles = new HashSet<>(webUserDTO.getRoles());
+
+			if (!existingRoles.equals(newRoles)) {
+				existingUser.setRoles(newRoles);
+			}
 		}
 	}
 
