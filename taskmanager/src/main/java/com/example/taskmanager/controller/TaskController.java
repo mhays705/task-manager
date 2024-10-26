@@ -32,16 +32,18 @@ public class TaskController {
 		this.taskService = taskService;
 	}
 
+
 	/**
-	 * Handles the POST request to create a new task.
+	 * Handles the creation of a new task.
 	 *
-	 * This method is responsible for processing the form submission for creating a new task.
-	 * It validates the input data, creates the task, and redirects to the dashboard with a success message upon successful creation.
+	 * This method processes the incoming request to create a new task by validating the provided
+	 * data, and delegates the task creation to the task service. It also handles any validation
+	 * errors and displays appropriate flash messages based on the outcome of the operation.
 	 *
-	 * @param webTaskDTO the data transfer object containing task details
-	 * @param bindingResult the result of the validation and data binding
-	 * @param authentication the authentication object containing the current user details
-	 * @param redirectAttributes attributes for the redirect scenario, used to store flash attributes
+	 * @param webTaskDTO the Data Transfer Object containing task details to be created
+	 * @param bindingResult the object holding the result of the validation and binding
+	 * @param authentication the authentication object containing the currently authenticated user's details
+	 * @param redirectAttributes attributes for storing flash attributes to be used in a redirect scenario
 	 * @return the view name to be redirected to after processing the request
 	 */
 	@PostMapping("/create")
@@ -55,10 +57,15 @@ public class TaskController {
 		}
 
 		String username = authentication.getName();
-		taskService.createTask(webTaskDTO, username);
-
-		redirectAttributes.addFlashAttribute("successMessage", "Task created successfully!");
-		return "redirect:/dashboard";
+		try {
+			taskService.createTask(webTaskDTO, username);
+			redirectAttributes.addFlashAttribute("successMessage", "Task created successfully!");
+			return "redirect:/dashboard";
+		}
+		catch (Exception e) {
+			redirectAttributes.addFlashAttribute("error", "Task Creation Failed" + e.getMessage());
+			return "redirect:/dashboard";
+		}
 	}
 
 

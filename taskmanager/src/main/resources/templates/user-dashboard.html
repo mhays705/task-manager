@@ -59,6 +59,10 @@
         <div th:if="${!tasks.isEmpty()}" class="starter-template">
             <h1>Pending Tasks</h1>
             <hr><br><br>
+            <!--Error and success messages-->
+            <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
