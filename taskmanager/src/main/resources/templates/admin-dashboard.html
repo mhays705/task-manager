@@ -17,7 +17,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link active" th:href="@{/admin/dashboard}">Admin</a>
@@ -46,7 +46,7 @@
             <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
             <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-
+            <div class="table-responsive">
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
@@ -79,6 +79,7 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
             <a class="btn btn-success btn-large w-100" th:href="@{/admin/create-new-user}">Create New User</a>
         </div>
     </main>
