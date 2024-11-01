@@ -1,7 +1,6 @@
 package com.example.taskmanager.controller;
 
 import com.example.taskmanager.dto.TaskDTO;
-import com.example.taskmanager.dto.UserDTO;
 import com.example.taskmanager.dto.WebTaskDTO;
 import com.example.taskmanager.dto.WebUserDTO;
 import com.example.taskmanager.entity.User;
@@ -12,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -208,6 +206,27 @@ public class ViewController {
 		model.addAttribute("webUserDTO", webUserDTO);
 
 		return "update-user-info";
+	}
+
+
+	/**
+	 * Displays the form to update the user's password.
+	 *
+	 * This method handles GET requests to "/update-password". It populates the model
+	 * with a WebUserDTO containing the authenticated user's username, which is
+	 * then used in the view to pre-fill the update password form.
+	 *
+	 * @param model the Model object used to pass attributes to the view
+	 * @param authentication the current user's authentication details
+	 * @return the name of the view to render, in this case "user-update-password"
+	 */
+	@GetMapping("/update-password")
+	public String showUpdatePasswordForm(Model model, Authentication authentication) {
+		WebUserDTO webUserDTO = new WebUserDTO();
+		webUserDTO.setUsername(authentication.getName());
+		model.addAttribute("webUserDTO", webUserDTO);
+
+		return "user-update-password";
 	}
 
 

@@ -4,6 +4,7 @@ package com.example.taskmanager.dto;
 
 import com.example.taskmanager.entity.Role;
 import com.example.taskmanager.validation.OnCreate;
+import com.example.taskmanager.validation.OnPasswordUpdate;
 import com.example.taskmanager.validation.OnUpdate;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -47,11 +48,11 @@ public class WebUserDTO {
 	@Size(groups = {OnCreate.class, OnUpdate.class}, max = 255, message = "Must be less than 255 characters")
 	private String email;
 
-	@NotBlank(groups = OnCreate.class, message = "Password is required")
+	@NotBlank(groups = {OnCreate.class, OnPasswordUpdate.class}, message = "Password is required")
 	@Size(groups = OnCreate.class,min = 5, message = "Password must be at least 5 characters ")
 	private String password;
 
-	@NotBlank(groups = OnCreate.class, message = "Password confirmation is required")
+	@NotBlank(groups = {OnCreate.class, OnPasswordUpdate.class}, message = "Password confirmation is required")
 	private String passwordConfirmation;
 
 

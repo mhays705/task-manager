@@ -24,5 +24,7 @@ public interface UserService {
 
 	Optional<UserDTO> getUserDTOByUsername(String username);
 
+	Optional<UserDTO> updatePassword(WebUserDTO webUserDTO);
+
 
 }

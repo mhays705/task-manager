@@ -8,8 +8,10 @@ import com.example.taskmanager.mapper.UserMapper;
 import com.example.taskmanager.repository.UserRepository;
 import com.example.taskmanager.validation.OnCreate;
 import com.example.taskmanager.validation.OnUpdate;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -209,4 +211,36 @@ public class UserServiceImpl implements UserService {
 		return true;
 	}
 
+
+	/**
+	 * Updates the password of a user based on the provided WebUserDTO.
+	 *
+	 * @param webUserDTO Data Transfer Object containing the username and new password information.
+	 * @return An Optional containing the updated UserDTO if the user is successfully updated;
+	 *         otherwise, throws an EntityNotFoundException if the user is not found.
+	 */
+	@Override
+	@Transactional
+	public Optional<UserDTO> updatePassword(WebUserDTO webUserDTO) {
+
+		User user = userRepository.findByUsername(webUserDTO.getUsername());
+
+		if (user == null) {
+			throw new EntityNotFoundException("Username not found.");
+		}
+
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+		if (encoder.matches(webUserDTO.getPassword(), user.getPassword())) {
+			throw new IllegalArgumentException("New password can not be the same as current password.");
+		}
+
+
+		user.setPassword(passwordEncoder.encode(webUserDTO.getPassword()));
+
+		userRepository.save(user);
+
+		UserDTO userDTO = userMapper.toDTO(user);
+		return Optional.of(userDTO);
+	}
 }

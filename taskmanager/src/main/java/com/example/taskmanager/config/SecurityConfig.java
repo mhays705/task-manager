@@ -88,7 +88,7 @@ public class SecurityConfig {
 						configurer
 								.requestMatchers("/css/**", "/images/**").permitAll()
 								.requestMatchers("/", "/register-new-user", "/login", "/logout", "/access-denied", "/user/register-new-user").permitAll()
-								.requestMatchers("/dashboard", "/create-task", "/delete-tasks", "/update-task-status", "/update-user-info").authenticated()
+								.requestMatchers("/dashboard", "/create-task", "/delete-tasks", "/update-task-status", "/update-user-info", "/update-password").authenticated()
 								.requestMatchers("/user/**").hasAnyRole("USER","ADMIN")
 								.requestMatchers("/admin/**").hasRole("ADMIN")
 								.anyRequest().authenticated()
