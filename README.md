@@ -51,6 +51,24 @@ UTracker is a robust web-based task management application designed to help user
 - **Entities**: Define application data models (e.g., `User`, `Task`, `Role`).
 - **DTOs**: Data Transfer Objects that secure and optimize data transfer between application layers.
 
+## Docker Support
+UTracker includes a Docker setup for easy deployment and development. You can build and run the application using Docker Compose. The Docker configuration includes:
+
+- **Dockerfile**: This file defines how to build the Docker image for the UTracker application. It uses the OpenJDK 21 slim image, sets the working directory, and specifies the entry point to run the application.
+
+- **docker-compose.yml**: This file orchestrates the application and its dependencies (like the MySQL database). It includes the following services:
+  - **app**: Builds the UTracker application from the Dockerfile and exposes it on port 8080.
+  - **db**: Runs a MySQL database instance with pre-defined environment variables for user credentials and database setup.
+
+### Running the Application with Docker
+To run UTracker with Docker, follow these steps:
+1. Build and run the application with Docker Compose:
+   ```bash
+   docker-compose up --build
+   ```
+
+2. Access the application in your web browser at `http://localhost:8080`.
+
 ## Layout Note
 The initial page layout and navigation bar were created using a Bootstrap template, allowing for a responsive design. Customizations have been made to the color scheme, spacing, and component styles to meet the application’s specific requirements.
 
