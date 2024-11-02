@@ -69,6 +69,18 @@ To run UTracker with Docker, follow these steps:
 
 2. Access the application in your web browser at `http://localhost:8080`.
 
+## Default Credentials
+
+- **Admin Account**:
+  - **Username**: `admin`
+  - **Password**: `password`
+
+- **Initial User Account**:
+  - **Username**: `jsmith`
+  - **Password**: `test123`
+
+
+
 ## Layout Note
 The initial page layout and navigation bar were created using a Bootstrap template, allowing for a responsive design. Customizations have been made to the color scheme, spacing, and component styles to meet the application’s specific requirements.
 
