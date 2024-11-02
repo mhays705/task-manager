@@ -123,7 +123,7 @@ public class UserController {
 		}
 
 		if (bindingResult.hasErrors()) {
-			return "user-update-password";
+			return "update-password-form";
 		}
 
 

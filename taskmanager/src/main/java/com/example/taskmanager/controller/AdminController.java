@@ -11,6 +11,7 @@ import com.example.taskmanager.service.RoleService;
 import com.example.taskmanager.service.TaskService;
 import com.example.taskmanager.service.UserService;
 import com.example.taskmanager.validation.OnCreate;
+import com.example.taskmanager.validation.OnPasswordUpdate;
 import com.example.taskmanager.validation.OnUpdate;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,6 +149,26 @@ public class AdminController {
 		return "admin-update-user-info";
 	}
 
+	/**
+	 * Displays the update password form for a user.
+	 *
+	 * This method is responsible for rendering the update password form for a specific user identified
+	 * by their username. It initializes a new instance of the WebUserDTO and sets the username before
+	 * adding it to the model to be used in the view.
+	 *
+	 * @param username the username of the user whose password is to be updated
+	 * @param model the model object to add attributes to be used in the view
+	 * @return a string indicating the name of the view to be rendered, which is "update-password-form"
+	 */
+	@GetMapping("/update-password/{username}")
+	public String updateUserPassword(@PathVariable("username") String username, Model model) {
+		WebUserDTO webUserDTO = new WebUserDTO();
+		webUserDTO.setUsername(username);
+		model.addAttribute("webUserDTO", webUserDTO);
+
+		return "admin-update-password-form";
+	}
+
 
 
 	/**
@@ -280,6 +301,18 @@ public class AdminController {
 		}
 	}
 
+	/**
+	 * Handles the creation of a new user.
+	 *
+	 * This method processes the form submission for creating a new user. It validates the given user data,
+	 * checks if the provided passwords match, attempts to register the user, and adds appropriate flash
+	 * messages to the redirect attributes depending on the outcome.
+	 *
+	 * @param webUserDTO the Data Transfer Object containing the user details
+	 * @param bindingResult holds the result of the validation and binding of the webUserDTO
+	 * @param redirectAttributes attributes for a redirect scenario to pass along flash attributes
+	 * @return a string representing the view name to be rendered or the redirect target
+	 */
 	@PostMapping("/create-new-user")
 	public String createNewUser(@Validated(OnCreate.class) @ModelAttribute("webUserDTO") WebUserDTO webUserDTO,
 								BindingResult bindingResult,
@@ -287,6 +320,10 @@ public class AdminController {
 
 		if (!webUserDTO.getPassword().equals(webUserDTO.getPasswordConfirmation())){
 			bindingResult.rejectValue("passwordConfirmation", null, "Passwords do not match.");
+		}
+
+		if (bindingResult.hasErrors()) {
+			return "admin-create-user";
 		}
 
 		try {
@@ -298,6 +335,52 @@ public class AdminController {
 			redirectAttributes.addFlashAttribute("error", "User Creation Failed " + e.getMessage());
 			return "admin-create-user";
 		}
+	}
+
+
+	/**
+	 * Updates the password for a user.
+	 *
+	 * This method handles the update of a user's password. It validates the provided password
+	 * data and updates the password if the data is valid. In case of validation errors, it
+	 * returns to the password update form. Upon successful update, it redirects to the admin
+	 * dashboard with a success message or an error message if the update fails.
+	 *
+	 * @param webUserDTO the Data Transfer Object containing the user's password information
+	 * @param bindingResult holds the result of the validation and binding of the webUserDTO
+	 * @param redirectAttributes attributes for a redirect scenario to pass along flash attributes
+	 * @return a string representing the view name to be rendered or the redirect target
+	 */
+	@PatchMapping("/update-password")
+	public String updateUserPassword(@Validated(OnPasswordUpdate.class) @ModelAttribute("webUserDTO") WebUserDTO webUserDTO,
+									 BindingResult bindingResult,
+									 RedirectAttributes redirectAttributes) {
+
+		if (!webUserDTO.getPassword().equals(webUserDTO.getPasswordConfirmation())) {
+			bindingResult.rejectValue("passwordConfirmation", null, "Passwords do not match.");
+		}
+
+		if (bindingResult.hasErrors()) {
+			return "admin-update-password-form";
+		}
+
+		Optional<UserDTO> updatedUser = Optional.empty();
+		try {
+			updatedUser = userService.updatePassword(webUserDTO);
+		}
+		catch (IllegalArgumentException e) {
+			redirectAttributes.addFlashAttribute("error", e.getMessage());
+			return "redirect:/admin/update-password/" + webUserDTO.getUsername();
+		}
+
+
+		if (updatedUser.isEmpty()) {
+			redirectAttributes.addFlashAttribute("error", "Error updating password.");
+			return "redirect:/admin/update-password/" + webUserDTO.getUsername();
+		}
+
+		redirectAttributes.addFlashAttribute("successMessage", "Password successfully updated.");
+		return "redirect:/admin/dashboard";
 	}
 
 

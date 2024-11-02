@@ -14,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * Configuration for application security.
- * <p>
+ *
  * This class configures the security settings, authentication mechanisms,
  * password encoding, and access control for different application endpoints.
  */
@@ -42,7 +42,7 @@ public class SecurityConfig {
 
 	/**
 	 * Provides a password encoder bean for hashing passwords.
-	 * <p>
+	 *
 	 * This method returns a {@link BCryptPasswordEncoder} instance,
 	 * which is used to encode passwords in a secure manner before storing them.
 	 *
@@ -55,7 +55,7 @@ public class SecurityConfig {
 
 	/**
 	 * Configures and returns a DaoAuthenticationProvider bean.
-	 * <p>
+	 * 
 	 * The DaoAuthenticationProvider uses the provided CustomUserDetailsService
 	 * to retrieve user details for authentication and the configured password encoder for password matching.
 	 *

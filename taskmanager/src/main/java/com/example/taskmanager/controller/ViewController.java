@@ -226,7 +226,7 @@ public class ViewController {
 		webUserDTO.setUsername(authentication.getName());
 		model.addAttribute("webUserDTO", webUserDTO);
 
-		return "user-update-password";
+		return "update-password-form";
 	}
 
 
