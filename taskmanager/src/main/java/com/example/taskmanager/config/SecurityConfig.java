@@ -55,7 +55,7 @@ public class SecurityConfig {
 
 	/**
 	 * Configures and returns a DaoAuthenticationProvider bean.
-	 * 
+	 *
 	 * The DaoAuthenticationProvider uses the provided CustomUserDetailsService
 	 * to retrieve user details for authentication and the configured password encoder for password matching.
 	 *

@@ -12,7 +12,7 @@ create table `users` (
     `last_name` varchar(45) default null,
     `email` varchar(255) default null,
     `password` varchar(255) default null,
-    `enabled` boolean default true,
+    `enabled` TINYINT(1) default true,
     unique key `USERNAME_UNIQUE` (`username`),
     primary key (`id`)
     ) engine=INNODB auto_increment=1 default charset=latin1;
@@ -77,8 +77,9 @@ create table `users` (
     set FOREIGN_KEY_CHECKS = 1;
 
     -- Create a new admin user
+    -- Default password is password (password is hashed)
     insert into `users` (username, first_name, last_name, email, password, enabled)
-    values ('admin', 'Matt', 'Hays', 'mhays@gmail.com', '$2a$10$DGiTvZk5rdtEelwoc6SiaufYwrsciO.UawwkNY09Y220iAhsHqPqK', true);
+    values ('admin', 'Jack', 'Mueller', 'jMueller@yahoo.com', '$2a$10$DGiTvZk5rdtEelwoc6SiaufYwrsciO.UawwkNY09Y220iAhsHqPqK', true);
 
     -- Get the ID of the newly created user
     set @user_id = LAST_INSERT_ID();
@@ -89,6 +90,32 @@ create table `users` (
     -- Assign the admin role to the new user
     insert into `user_roles` (user_id, role_id)
     values (@user_id, @role_id);
+
+    -- Create a new user
+    -- default password is test123 (password is hashed)
+        insert into `users` (username, first_name, last_name, email, password, enabled)
+        values ('jSmith', 'John', 'Smith', 'jSmith@gmail.com', '$2a$12$1CMU5KijcRksr0/cDwQvUer80tl0qsXyHqxrCJyR8lFlQ2tiA8Tka', true);
+
+        -- Get the ID of the newly created user
+        set @user_id = LAST_INSERT_ID();
+
+        -- Get the ID of the user role
+        set @role_id = (select id from `roles` where name = 'ROLE_USER');
+
+        -- Assign the user role to the new user
+        insert into `user_roles` (user_id, role_id)
+        values (@user_id, @role_id);
+
+
+
+
+
+
+
+
+
+
+
 
 
 
