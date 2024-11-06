@@ -1,7 +1,7 @@
 
 services:
   app:
-    image: mhays705/taskmanager.rpi:v1.0
+    image: mhays705/taskmanager.rpi:latest
     ports:
       - 8080:8080
     environment:
